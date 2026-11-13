@@ -1,8 +1,4 @@
-"""
-Convierte el arte PNG a WebP para la app web (10x mas liviano: 135 MB -> 13 MB).
-
-Los PNG masters quedan intactos para imprenta; la app (index.html y tiles_metadata.json)
-apunta a las versiones .webp que genera este script.
+"""Regenera los .webp solo de los PNG que cambiaron (mtime mas nuevo que el webp).
 
 Uso:  python tools/convertir-webp.py
 """
@@ -18,16 +14,25 @@ except ImportError:
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CALIDAD = 86
 
+convertidos = 0
 total_png = total_webp = 0
 for sub in ('Tiles', 'Cartas'):
     carpeta = os.path.join(BASE, 'imagenes', sub)
     for png in sorted(glob.glob(os.path.join(carpeta, '*.png'))):
         webp = png[:-4] + '.webp'
+        if os.path.exists(webp) and os.path.getmtime(webp) >= os.path.getmtime(png):
+            continue  # el webp ya esta al dia
         Image.open(png).convert('RGB').save(webp, 'WEBP', quality=CALIDAD, method=6)
-        a, b = os.path.getsize(png), os.path.getsize(webp)
-        total_png += a
-        total_webp += b
-        print('%-36s %6.2f MB -> %5.2f MB' % (os.path.basename(png), a / 1048576, b / 1048576))
+        convertidos += 1
+        print('regenerado: %s' % os.path.relpath(webp, BASE))
+    for png in sorted(glob.glob(os.path.join(carpeta, '*.png'))):
+        webp = png[:-4] + '.webp'
+        if os.path.exists(webp):
+            total_png += os.path.getsize(png)
+            total_webp += os.path.getsize(webp)
 
-print('TOTAL %.1f MB -> %.1f MB' % (total_png / 1048576, total_webp / 1048576))
-print('Despues hay que subir los .webp modificados:  git add -A && git commit -m "chore: regenerar arte web" && git push')
+print('')
+print('webp regenerados: %d' % convertidos)
+print('total arte web: %.1f MB (png masters: %.1f MB)' % (total_webp / 1048576, total_png / 1048576))
+if convertidos:
+    print('Despues:  git add -A && git commit -m "chore: regenerar arte web" && git push')

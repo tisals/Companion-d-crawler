@@ -23,10 +23,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": true,
-      "este": false,
-      "oeste": false
+      "norte": false,
+      "sur": false,
+      "este": true,
+      "oeste": true
     }
   },
   {
@@ -38,10 +38,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": true,
-      "este": false,
-      "oeste": false
+      "norte": false,
+      "sur": false,
+      "este": true,
+      "oeste": true
     }
   },
   {
@@ -53,10 +53,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": true,
-      "este": false,
-      "oeste": false
+      "norte": false,
+      "sur": false,
+      "este": true,
+      "oeste": true
     }
   },
   {
@@ -68,10 +68,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": true,
-      "este": false,
-      "oeste": false
+      "norte": false,
+      "sur": false,
+      "este": true,
+      "oeste": true
     }
   },
   {
@@ -83,10 +83,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
-      "este": true,
-      "oeste": false
+      "norte": false,
+      "sur": true,
+      "este": false,
+      "oeste": true
     }
   },
   {
@@ -98,10 +98,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
-      "este": true,
-      "oeste": false
+      "norte": false,
+      "sur": true,
+      "este": false,
+      "oeste": true
     }
   },
   {
@@ -113,10 +113,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
-      "este": true,
-      "oeste": false
+      "norte": false,
+      "sur": true,
+      "este": false,
+      "oeste": true
     }
   },
   {
@@ -129,7 +129,7 @@
     "descripcion": "",
     "accesos": {
       "norte": true,
-      "sur": false,
+      "sur": true,
       "este": true,
       "oeste": true
     }
@@ -143,8 +143,8 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
+      "norte": false,
+      "sur": true,
       "este": true,
       "oeste": true
     }
@@ -159,7 +159,7 @@
     "descripcion": "",
     "accesos": {
       "norte": true,
-      "sur": false,
+      "sur": true,
       "este": true,
       "oeste": true
     }
@@ -173,8 +173,8 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
+      "norte": false,
+      "sur": true,
       "este": true,
       "oeste": true
     }
@@ -188,14 +188,14 @@
     "copias": 1,
     "descripcion": "",
     "accesos": {
-      "norte1": true,
-      "norte2": true,
+      "norte1": false,
+      "norte2": false,
       "sur1": true,
       "sur2": true,
-      "oeste1": true,
-      "oeste2": true,
-      "este1": true,
-      "este2": true
+      "oeste1": false,
+      "oeste2": false,
+      "este1": false,
+      "este2": false
     }
   },
   {
@@ -207,13 +207,13 @@
     "copias": 1,
     "descripcion": "",
     "accesos": {
-      "norte1": true,
-      "norte2": true,
+      "norte1": false,
+      "norte2": false,
       "sur1": true,
       "sur2": true,
-      "oeste1": true,
-      "oeste2": true,
-      "este1": true,
+      "oeste1": false,
+      "oeste2": false,
+      "este1": false,
       "este2": true
     }
   },
@@ -230,10 +230,10 @@
       "norte2": true,
       "sur1": true,
       "sur2": true,
-      "oeste1": true,
-      "oeste2": true,
-      "este1": true,
-      "este2": true
+      "oeste1": false,
+      "oeste2": false,
+      "este1": false,
+      "este2": false
     }
   },
   {
@@ -245,13 +245,13 @@
     "copias": 1,
     "descripcion": "",
     "accesos": {
-      "norte1": true,
-      "norte2": true,
-      "sur1": true,
-      "sur2": true,
-      "oeste1": true,
+      "norte1": false,
+      "norte2": false,
+      "sur1": false,
+      "sur2": false,
+      "oeste1": false,
       "oeste2": true,
-      "este1": true,
+      "este1": false,
       "este2": true
     }
   },
@@ -264,13 +264,13 @@
     "copias": 1,
     "descripcion": "",
     "accesos": {
-      "norte1": true,
-      "norte2": true,
-      "sur1": true,
-      "sur2": true,
+      "norte1": false,
+      "norte2": false,
+      "sur1": false,
+      "sur2": false,
       "oeste1": true,
-      "oeste2": true,
-      "este1": true,
+      "oeste2": false,
+      "este1": false,
       "este2": true
     }
   },
@@ -283,10 +283,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": false,
+      "norte": true,
       "sur": false,
       "este": false,
-      "oeste": true
+      "oeste": false
     }
   },
   {
@@ -313,10 +313,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": true,
-      "este": false,
-      "oeste": false
+      "norte": false,
+      "sur": false,
+      "este": true,
+      "oeste": true
     }
   },
   {
@@ -328,10 +328,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": true,
-      "este": false,
-      "oeste": false
+      "norte": false,
+      "sur": false,
+      "este": true,
+      "oeste": true
     }
   },
   {
@@ -343,10 +343,10 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": true,
-      "este": false,
-      "oeste": false
+      "norte": false,
+      "sur": false,
+      "este": true,
+      "oeste": true
     }
   },
   {
@@ -358,8 +358,8 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
+      "norte": false,
+      "sur": true,
       "este": true,
       "oeste": false
     }
@@ -388,8 +388,8 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
+      "norte": false,
+      "sur": true,
       "este": true,
       "oeste": false
     }
@@ -404,9 +404,9 @@
     "descripcion": "",
     "accesos": {
       "norte": true,
-      "sur": false,
+      "sur": true,
       "este": true,
-      "oeste": true
+      "oeste": false
     }
   },
   {
@@ -418,8 +418,8 @@
     "copias": 2,
     "descripcion": "",
     "accesos": {
-      "norte": true,
-      "sur": false,
+      "norte": false,
+      "sur": true,
       "este": true,
       "oeste": true
     }
@@ -434,7 +434,7 @@
     "descripcion": "",
     "accesos": {
       "norte": true,
-      "sur": false,
+      "sur": true,
       "este": true,
       "oeste": true
     }
@@ -449,7 +449,7 @@
     "descripcion": "",
     "accesos": {
       "norte": true,
-      "sur": false,
+      "sur": true,
       "este": true,
       "oeste": true
     }
@@ -463,13 +463,13 @@
     "copias": 1,
     "descripcion": "",
     "accesos": {
-      "norte1": true,
-      "norte2": true,
-      "sur1": true,
-      "sur2": true,
-      "oeste1": true,
+      "norte1": false,
+      "norte2": false,
+      "sur1": false,
+      "sur2": false,
+      "oeste1": false,
       "oeste2": true,
-      "este1": true,
+      "este1": false,
       "este2": true
     }
   },
@@ -483,13 +483,13 @@
     "descripcion": "",
     "accesos": {
       "norte1": true,
-      "norte2": true,
-      "sur1": true,
-      "sur2": true,
-      "oeste1": true,
+      "norte2": false,
+      "sur1": false,
+      "sur2": false,
+      "oeste1": false,
       "oeste2": true,
       "este1": true,
-      "este2": true
+      "este2": false
     }
   },
   {
@@ -502,13 +502,13 @@
     "descripcion": "",
     "accesos": {
       "norte1": true,
-      "norte2": true,
+      "norte2": false,
       "sur1": true,
-      "sur2": true,
-      "oeste1": true,
-      "oeste2": true,
-      "este1": true,
-      "este2": true
+      "sur2": false,
+      "oeste1": false,
+      "oeste2": false,
+      "este1": false,
+      "este2": false
     }
   },
   {
@@ -520,13 +520,13 @@
     "copias": 1,
     "descripcion": "",
     "accesos": {
-      "norte1": true,
-      "norte2": true,
-      "sur1": true,
-      "sur2": true,
+      "norte1": false,
+      "norte2": false,
+      "sur1": false,
+      "sur2": false,
       "oeste1": true,
-      "oeste2": true,
-      "este1": true,
+      "oeste2": false,
+      "este1": false,
       "este2": true
     }
   },
@@ -540,13 +540,13 @@
     "descripcion": "",
     "accesos": {
       "norte1": true,
-      "norte2": true,
-      "sur1": true,
-      "sur2": true,
+      "norte2": false,
+      "sur1": false,
+      "sur2": false,
       "oeste1": true,
       "oeste2": true,
-      "este1": true,
-      "este2": true
+      "este1": false,
+      "este2": false
     }
   }
 ]

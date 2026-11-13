@@ -15,3 +15,7 @@ dungeon_master_hub.html
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Hoja de diseño de cartas: es el origen de los datos y vive en OneDrive.
+# Los valores ya están reflejados en index.html (DEFAULT_CUSTOM_ENTITIES).
+listado de cartas2.xlsx

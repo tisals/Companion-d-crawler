@@ -980,67 +980,66 @@
         // Los campos extendidos (category, copies, energy, move, attack, dmgMin/Max, attackType, atkMod, defMod,
         // defRating, energyCost, effect) provienen de las columnas del Excel y se muestran en el bestiario.
         const DEFAULT_CUSTOM_ENTITIES = [
-            // --- Enemigos ---
-            { type: 'Enemigo', name: 'Cthulhu', cost: 20, stats: 'Vida: 125 | Atq: 28-36 | Def: 4', img: './imagenes/Cartas/ene-cthulhu.webp', locked: false,
-              category: 'Jefe', copies: 1, energy: 12, move: 3, attack: 20, dmgMin: 28, dmgMax: 36, attackType: 'CaC', energyCost: 3,
-              atkMod: '1D6 (1-2: +8 / 3-4: +12 / 5-6: +16f)', defMod: '—', defRating: 4,
+            { type: 'Enemigo', name: 'Cthulhu', cost: 20, stats: 'Vida: 120 | Atq: 25-35 | Def: 4', img: './imagenes/Cartas/ene-cthulhu.webp', locked: false,
+              category: 'Jefe', copies: 1, energy: 12, move: 3, attack: 20, dmgMin: 25, dmgMax: 35, attackType: 'CaC', energyCost: 3,
+              atkMod: '1D6 (1-2: +5 / 3-4: +10 / 5-6: +15)', defMod: '—', defRating: 4,
               effect: 'Tsunami: Ataque en área adyacente, ignora defensa.' },
-            { type: 'Enemigo', name: 'Drácula', cost: 19, stats: 'Vida: 110 | Atq: 32-44 | Def: 4', img: './imagenes/Cartas/ene-Dracula.webp', locked: false,
-              category: 'Jefe', copies: 1, energy: 12, move: 4, attack: 20, dmgMin: 32, dmgMax: 44, attackType: 'CaC', energyCost: 4,
-              atkMod: '2D6 (1-2: +6 / 3-4: +8 / 5-6: +12)', defMod: '1D6 (1-2: -3 / 3-4: -1 / 5-6: -3)', defRating: 8,
-              effect: 'Drenar: Inflige 2D6 de daño y se cura la misma cantidad.' },
+            { type: 'Enemigo', name: 'Drácula', cost: 19, stats: 'Vida: 112 | Atq: 26-32 | Def: 4', img: './imagenes/Cartas/ene-Dracula.webp', locked: false,
+              category: 'Jefe', copies: 1, energy: 12, move: 4, attack: 20, dmgMin: 26, dmgMax: 32, attackType: 'CaC', energyCost: 4,
+              atkMod: '1D6 (1-2: +6 / 3-4: +8 / 5-6: +12)', defMod: '1D6 (1-2: -3 / 3-4: -1 / 5-6: -3)', defRating: 8,
+              effect: 'Drenar: Inflige daño de ataque y se cura la misma cantidad.' },
             { type: 'Enemigo', name: 'Nixar', cost: 19, stats: 'Vida: 114 | Atq: 31-35 | Def: 2', img: './imagenes/Cartas/ene-Nixar.webp', locked: false,
               category: 'Jefe', copies: 1, energy: 12, move: 4, attack: 25, dmgMin: 31, dmgMax: 35, attackType: 'Dist 2', energyCost: 4,
               atkMod: '1D6 (1-2: +6 / 3-4: +8 / 5-6: +10)', defMod: '1D6 (1-2: -3 / 3-4: -1 / 5-6: -3)', defRating: 4,
               effect: 'Ojo Místico: se teletransporta 3 casillas y hace un ataque hasta tres criaturas.' },
-            { type: 'Enemigo', name: 'Serpedraco', cost: 19, stats: 'Vida: 120 | Atq: 20-26 | Def: 0', img: './imagenes/Cartas/ene-serpendraco.webp', locked: false,
+            { type: 'Enemigo', name: 'Serpedraco', cost: 19, stats: 'Vida: 115 | Atq: 20-26 | Def: 0', img: './imagenes/Cartas/ene-serpendraco.webp', locked: false,
               category: 'Jefe', copies: 1, energy: 12, move: 4, attack: 18, dmgMin: 20, dmgMax: 26, attackType: 'CaC', energyCost: 4,
               atkMod: '1D6 (1-2: +2 / 3-4: +5 / 5-6: +8)', defMod: '1D6 (1-2: -2 / 3-4: -14 / 5-6: -6)', defRating: 4,
               effect: 'Apreton: Inflige 1D6 de daño y aturde para el siguiente turno a una criatura.' },
             { type: 'Enemigo', name: 'Elementales', cost: 17, stats: 'Vida: 42 | Atq: 22-28 | Def: 4', img: './imagenes/Cartas/ene-elementales.webp', locked: false,
               category: 'Principal', copies: 2, energy: 12, move: 4, attack: 20, dmgMin: 22, dmgMax: 28, attackType: 'CaC', energyCost: 4,
-              atkMod: '1D6 (1-2: +2 / 3-4: +5 / 5-6: +8)', defMod: '1D6 (1-2: -2 / 3-4: -14 / 5-6: -6)', defRating: 4,
+              atkMod: '1D6 (1-2: +2 / 3-4: +5 / 5-6: +8)', defMod: '1D6 (1-2: -2 / 3-4: -14 / 5-6: -6)', defRating: 5,
               effect: 'Vórtice: Ataque en área a todos los enemigos adyacentes.' },
-            { type: 'Enemigo', name: 'Neofitos', cost: 17, stats: 'Vida: 25 | Atq: 20-26 | Def: 0', img: './imagenes/Cartas/ene-Neofitos.webp', locked: false,
+            { type: 'Enemigo', name: 'Neofitos', cost: 17, stats: 'Vida: 24 | Atq: 20-26 | Def: 0', img: './imagenes/Cartas/ene-Neofitos.webp', locked: false,
               category: 'Principal', copies: 3, energy: 12, move: 4, attack: 18, dmgMin: 20, dmgMax: 26, attackType: 'CaC', energyCost: 3,
               atkMod: '1D6 (1-2: +2 / 3-4: +5 / 5-6: +8)', defMod: '1D6 (1-2: -2 / 3-4: -14 / 5-6: -6)', defRating: 2,
               effect: 'Ansia: Inflige 1D6 de daño y se cura la mitad.' },
-            { type: 'Enemigo', name: 'Cíclope', cost: 17, stats: 'Vida: 45 | Atq: 22-28 | Def: 0', img: './imagenes/Cartas/ene-Ciclope.webp', locked: false,
-              category: 'Principal', copies: 2, energy: 12, move: 3, attack: 18, dmgMin: 22, dmgMax: 28, attackType: 'CaC', energyCost: 4,
+            { type: 'Enemigo', name: 'Cíclope', cost: 17, stats: 'Vida: 45 | Atq: 19-25 | Def: 0', img: './imagenes/Cartas/ene-Ciclope.webp', locked: false,
+              category: 'Principal', copies: 2, energy: 12, move: 3, attack: 15, dmgMin: 19, dmgMax: 25, attackType: 'CaC', energyCost: 4,
               atkMod: '2D6 (1-2: +2 / 3-4: +5 / 5-6: +3)', defMod: '1D6 (1-2: -1 / 3-4: -2 / 5-6: -3)', defRating: 2,
               effect: 'Embestida: Mueve hasta 3 y genera daño base + 1D6 a todos los que se crucen en su camino.' },
-            { type: 'Enemigo', name: 'Dragón', cost: 17, stats: 'Vida: 28 | Atq: 17-19 | Def: 0', img: './imagenes/Cartas/ene-Dragon.webp', locked: false,
-              category: 'Principal', copies: 3, energy: 12, move: 4, attack: 14, dmgMin: 17, dmgMax: 19, attackType: 'Dist 3', energyCost: 3,
+            { type: 'Enemigo', name: 'Dragón', cost: 17, stats: 'Vida: 26 | Atq: 19-19 | Def: 0', img: './imagenes/Cartas/ene-Dragon.webp', locked: false,
+              category: 'Principal', copies: 3, energy: 12, move: 4, attack: 14, dmgMin: 19, dmgMax: 19, attackType: 'Dist 3', energyCost: 3,
               atkMod: '1D6 (1-2: +1 / 3-4: +3 / 5-6: +5)', defMod: '1D6 (1-2: -1 / 3-4: -2 / 5-6: -3)', defRating: 2,
               effect: 'Aliento Oscuro: Ataque a Distancia 2 con 1d6 Daño (1-3: 20 / 4-6: 30).' },
-            { type: 'Enemigo', name: 'Pictal', cost: 17, stats: 'Vida: 47 | Atq: 18-21 | Def: 0', img: './imagenes/Cartas/ene-Pictal.webp', locked: false,
+            { type: 'Enemigo', name: 'Pictal', cost: 17, stats: 'Vida: 45 | Atq: 18-21 | Def: 0', img: './imagenes/Cartas/ene-Pictal.webp', locked: false,
               category: 'Principal', copies: 2, energy: 12, move: 3, attack: 16, dmgMin: 18, dmgMax: 21, attackType: 'CaC', energyCost: 3,
               atkMod: '1D6 (1-2: +2 / 3-4: +4 / 5-6: +5)', defMod: '1D6 (1-2: -1 / 3-4: -2 / 5-6: +1)', defRating: 2,
               effect: 'Embestida: Carga a cuerpo a cuerpo hacia la miniatura más lejana. Hasta 3 distancia aplica daño base sin modificador.' },
-            { type: 'Enemigo', name: 'Huggy Kissy', cost: 15, stats: 'Vida: 40 | Atq: 19-25 | Def: 0', img: './imagenes/Cartas/ene-huggy-Kissy.webp', locked: false,
+            { type: 'Enemigo', name: 'Huggy Kissy', cost: 16, stats: 'Vida: 40 | Atq: 19-25 | Def: 0', img: './imagenes/Cartas/ene-huggy-Kissy.webp', locked: false,
               category: 'Semi-Héroe', copies: 2, energy: 10, move: 4, attack: 15, dmgMin: 19, dmgMax: 25, attackType: 'CaC', energyCost: 4,
               atkMod: '2D6 (1-2: +2 / 3-4: +5 / 5-6: +3)', defMod: '1D6 (1-2: -1 / 3-4: -2 / 5-6: -3)', defRating: 2,
               effect: 'Abalanza: Inflige 10% de la vida restante del objetivo (sin defensa).' },
-            { type: 'Enemigo', name: 'Medusa', cost: 15, stats: 'Vida: 25 | Atq: 12-15 | Def: 0', img: './imagenes/Cartas/ene-Medusa.webp', locked: false,
+            { type: 'Enemigo', name: 'Medusa', cost: 15, stats: 'Vida: 24 | Atq: 12-15 | Def: 0', img: './imagenes/Cartas/ene-Medusa.webp', locked: false,
               category: 'Secundario', copies: 3, energy: 10, move: 2, attack: 10, dmgMin: 12, dmgMax: 15, attackType: 'Dist 2', energyCost: 4,
               atkMod: '1D6 (1-2: +2 / 3-4: +4 / 5-6: +5)', defMod: '1D6 (1-2: -1 / 3-4: -3 / 5-6: -5)', defRating: 5,
               effect: 'Petrificar: Paraliza a 1 figura por 2 turnos.' },
-            { type: 'Enemigo', name: 'Camuflador', cost: 15, stats: 'Vida: 25 | Atq: 11-15 | Def: 0', img: './imagenes/Cartas/ene-camuflador.webp', locked: false,
-              category: 'Secundario', copies: 3, energy: 10, move: 3, attack: 11, dmgMin: 11, dmgMax: 15, attackType: 'CaC', energyCost: 2,
-              atkMod: '2D6 (1-2: 0 / 3-4: 0 / 5-6: +2)', defMod: '1D6 (1-2: 0 / 3-4: -2 / 5-6: -3)', defRating: 2,
+            { type: 'Enemigo', name: 'Camuflador', cost: 15, stats: 'Vida: 25 | Atq: 11-13 | Def: 0', img: './imagenes/Cartas/ene-camuflador.webp', locked: false,
+              category: 'Secundario', copies: 3, energy: 10, move: 3, attack: 11, dmgMin: 11, dmgMax: 13, attackType: 'CaC', energyCost: 2,
+              atkMod: '1D6 (1-2: 0 / 3-4: 0 / 5-6: +2)', defMod: '1D6 (1-2: 0 / 3-4: -2 / 5-6: -3)', defRating: 2,
               effect: 'Paso Sombrío: Se vuelve inalcanzable (no puede ser atacado) 1 turno y se mueve a Distancia 3.' },
-            { type: 'Enemigo', name: 'Espectro', cost: 15, stats: 'Vida: 22 | Atq: 15-21 | Def: 2', img: './imagenes/Cartas/ene-espectro.webp', locked: false,
-              category: 'Secundario', copies: 3, energy: 10, move: 3, attack: 11, dmgMin: 15, dmgMax: 21, attackType: 'CaC', energyCost: 3,
+            { type: 'Enemigo', name: 'Espectro', cost: 15, stats: 'Vida: 38 | Atq: 15-21 | Def: 2', img: './imagenes/Cartas/ene-espectro.webp', locked: false,
+              category: 'Secundario', copies: 2, energy: 10, move: 3, attack: 11, dmgMin: 15, dmgMax: 21, attackType: 'CaC', energyCost: 3,
               atkMod: '2D6 (1-2: +2 / 3-4: +4 / 5-6: +5)', defMod: '1D6 (1-2: -1 / 3-4: -2 / 5-6: -3)', defRating: 4,
               effect: 'Etéreo: 1 turno no puede ser atacado y sus ataques no pueden ser defendidos.' },
-            { type: 'Enemigo', name: 'Impostor', cost: 15, stats: 'Vida: 18 | Atq: 10-12 | Def: 0', img: './imagenes/Cartas/ene-impostor.webp', locked: false,
+            { type: 'Enemigo', name: 'Impostor', cost: 16, stats: 'Vida: 18 | Atq: 10-12 | Def: 0', img: './imagenes/Cartas/ene-impostor.webp', locked: false,
               category: 'Secundario', copies: 4, energy: 10, move: 2, attack: 10, dmgMin: 10, dmgMax: 12, attackType: 'CaC', energyCost: 2,
               atkMod: '1D6 (1-2: 0 / 3-4: +2 / 5-6: +1)', defMod: '1D6 (1-2: -1 / 3-4: -2 / 5-6: -3)', defRating: 2,
               effect: 'Emboscada: Ataque que no se puede defender.' },
-            // --- Mascotas ---
-            { type: 'Mascota', name: 'Lobo Alfa', cost: 4, stats: 'Vida: 20 | Atq: 18 | Def: 0', img: '', locked: false,
+{ type: 'Mascota', name: 'Lobo Alfa', cost: 4, stats: 'Vida: 20 | Atq: 18 | Def: 0', img: '', locked: false,
               category: 'Mascota', copies: 1, energy: 0, move: 4, attack: 18, dmgMin: 18, dmgMax: 18, attackType: 'CaC', energyCost: 0,
               atkMod: '—', defMod: '—', defRating: 0, effect: '' }
+
         ];
 
         // --- 2. CATÁLOGO BASE DE TILES (8x8) Y SALAS PLEGABLES (16x16 / 2x2) CON PUERTAS / CONEXIONES ---
@@ -1049,46 +1048,46 @@
             // Mazmorra (8x8)
             // Entrada y Salida: A 0° solo tiene salida abierta en el OESTE (O). Los otros 3 lados son muros con antorchas/reja.
             { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Entrada y Salida', img: './imagenes/Tiles/ENTRADA-SALIDA X2.webp', copies: 2, doors: ['O'] },
-            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Central', img: './imagenes/Tiles/Pasillo interior x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Arcada', img: './imagenes/Tiles/Pasillo 1 interior x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Columnas', img: './imagenes/Tiles/Pasillo 2 interior x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Cripta', img: './imagenes/Tiles/Pasillo 3 interior x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Caverna / Mazmorra', type: 'Giro en L (8x8)', size: '8x8', name: 'Giro en L Mazmorra', img: './imagenes/Tiles/Pasillo L x2.webp', copies: 2, doors: ['N', 'E'] },
-            { env: 'Caverna / Mazmorra', type: 'Giro en L (8x8)', size: '8x8', name: 'Giro en L Antorchas', img: './imagenes/Tiles/Pasillo L1 x2.webp', copies: 2, doors: ['N', 'E'] },
-            { env: 'Caverna / Mazmorra', type: 'Giro en L (8x8)', size: '8x8', name: 'Giro en L Foso', img: './imagenes/Tiles/Pasillo L2 x2.webp', copies: 2, doors: ['N', 'E'] },
-            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T Mazmorra', img: './imagenes/Tiles/Pasillo t x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
-            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T1 Mazmorra', img: './imagenes/Tiles/Pasillo t1 x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
-            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T2 Mazmorra', img: './imagenes/Tiles/Pasillo t2 x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
-            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T3 Mazmorra', img: './imagenes/Tiles/Pasillo t3 x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Central', img: './imagenes/Tiles/Pasillo interior x2.webp', copies: 2, doors: ['E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Arcada', img: './imagenes/Tiles/Pasillo 1 interior x2.webp', copies: 2, doors: ['E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Columnas', img: './imagenes/Tiles/Pasillo 2 interior x2.webp', copies: 2, doors: ['E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Pasillo (8x8)', size: '8x8', name: 'Pasillo Interior Cripta', img: './imagenes/Tiles/Pasillo 3 interior x2.webp', copies: 2, doors: ['E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Giro en L (8x8)', size: '8x8', name: 'Giro en L Mazmorra', img: './imagenes/Tiles/Pasillo L x2.webp', copies: 2, doors: ['S', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Giro en L (8x8)', size: '8x8', name: 'Giro en L Antorchas', img: './imagenes/Tiles/Pasillo L1 x2.webp', copies: 2, doors: ['S', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Giro en L (8x8)', size: '8x8', name: 'Giro en L Foso', img: './imagenes/Tiles/Pasillo L2 x2.webp', copies: 2, doors: ['S', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T Mazmorra', img: './imagenes/Tiles/Pasillo t x2.webp', copies: 2, doors: ['N', 'S', 'E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T1 Mazmorra', img: './imagenes/Tiles/Pasillo t1 x2.webp', copies: 2, doors: ['S', 'E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T2 Mazmorra', img: './imagenes/Tiles/Pasillo t2 x2.webp', copies: 2, doors: ['N', 'S', 'E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T3 Mazmorra', img: './imagenes/Tiles/Pasillo t3 x2.webp', copies: 2, doors: ['S', 'E', 'O'] },
 
             // Salas Plegables Mazmorra (16x16 -> 2x2 casillas)
             // Una sala 16x16 tiene entradas en todas sus caras exteriores
-            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Cámara del Trono Maldita', img: './imagenes/Tiles/sala 5 int trono maldita.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Cámara Tóxica', img: './imagenes/Tiles/sala 1 int toxica.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Altar de Piedra', img: './imagenes/Tiles/sala 2 int altar.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Gran Hall', img: './imagenes/Tiles/sala 3 int Lobby.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Torre del Reloj', img: './imagenes/Tiles/sala 4 int Torre reloj.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
+            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Cámara del Trono Maldita', img: './imagenes/Tiles/sala 5 int trono maldita.webp', copies: 1, doors: ['S1', 'S2'] },
+            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Cámara Tóxica', img: './imagenes/Tiles/sala 1 int toxica.webp', copies: 1, doors: ['S1', 'S2', 'E2'] },
+            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Altar de Piedra', img: './imagenes/Tiles/sala 2 int altar.webp', copies: 1, doors: ['N1', 'N2', 'S1', 'S2'] },
+            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Gran Hall', img: './imagenes/Tiles/sala 3 int Lobby.webp', copies: 1, doors: ['O2', 'E2'] },
+            { env: 'Caverna / Mazmorra', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Torre del Reloj', img: './imagenes/Tiles/sala 4 int Torre reloj.webp', copies: 1, doors: ['O1', 'E2'] },
 
             // Exterior (8x8)
-            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Entrada y Salida Exterior', img: './imagenes/Tiles/ENTRADA-SALIDA ext X2.webp', copies: 2, doors: ['O'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Entrada y Salida Exterior', img: './imagenes/Tiles/ENTRADA-SALIDA ext X2.webp', copies: 2, doors: ['N'] },
             { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Sendero Exterior', img: './imagenes/Tiles/Pasillo ext x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Sendero Rocoso', img: './imagenes/Tiles/Pasillo 1 ext x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Sendero Forestal', img: './imagenes/Tiles/Pasillo 2 ext x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Sendero con Ruinas', img: './imagenes/Tiles/Pasillo 3 ext x2.webp', copies: 2, doors: ['N', 'S'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Giro en L (8x8)', size: '8x8', name: 'Curva en L Exterior', img: './imagenes/Tiles/Pasillo L ext x2.webp', copies: 2, doors: ['N', 'E'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Sendero Rocoso', img: './imagenes/Tiles/Pasillo 1 ext x2.webp', copies: 2, doors: ['E', 'O'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Sendero Forestal', img: './imagenes/Tiles/Pasillo 2 ext x2.webp', copies: 2, doors: ['E', 'O'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Pasillo (8x8)', size: '8x8', name: 'Sendero con Ruinas', img: './imagenes/Tiles/Pasillo 3 ext x2.webp', copies: 2, doors: ['E', 'O'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Giro en L (8x8)', size: '8x8', name: 'Curva en L Exterior', img: './imagenes/Tiles/Pasillo L ext x2.webp', copies: 2, doors: ['S', 'E'] },
             { env: 'Exterior (Zona Abierta)', type: 'Giro en L (8x8)', size: '8x8', name: 'Curva en L Arbustos', img: './imagenes/Tiles/Pasillo L1 ext x2.webp', copies: 2, doors: ['N', 'E'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Giro en L (8x8)', size: '8x8', name: 'Curva en L Rocas', img: './imagenes/Tiles/Pasillo L2 ext x2.webp', copies: 2, doors: ['N', 'E'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T Sendero', img: './imagenes/Tiles/Pasillo t ext x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce en T Sendero', img: './imagenes/Tiles/Pasillo t1 ext x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce en T Arboleda', img: './imagenes/Tiles/Pasillo t2 ext x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce en T Ciénaga', img: './imagenes/Tiles/Pasillo t3 ext x2.webp', copies: 2, doors: ['N', 'E', 'O'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Giro en L (8x8)', size: '8x8', name: 'Curva en L Rocas', img: './imagenes/Tiles/Pasillo L2 ext x2.webp', copies: 2, doors: ['S', 'E'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce T Sendero', img: './imagenes/Tiles/Pasillo t ext x2.webp', copies: 2, doors: ['N', 'S', 'E'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce en T Sendero', img: './imagenes/Tiles/Pasillo t1 ext x2.webp', copies: 2, doors: ['S', 'E', 'O'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce en T Arboleda', img: './imagenes/Tiles/Pasillo t2 ext x2.webp', copies: 2, doors: ['N', 'S', 'E', 'O'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Cruce en T (8x8)', size: '8x8', name: 'Cruce en T Ciénaga', img: './imagenes/Tiles/Pasillo t3 ext x2.webp', copies: 2, doors: ['N', 'S', 'E', 'O'] },
 
             // Salas Plegables Exterior (16x16 -> 2x2 casillas)
-            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Ruinas del Sendero', img: './imagenes/Tiles/sala 1 EXT ruinas.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Cabaña Abandonada', img: './imagenes/Tiles/sala 2 EXT cabaña abandonada.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Capilla del Camino', img: './imagenes/Tiles/sala 3 ext capilla.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Granero', img: './imagenes/Tiles/sala 4 ext Granero.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] },
-            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Muelle', img: './imagenes/Tiles/sala 5 ext muelle.webp', copies: 1, doors: ['N', 'S', 'E', 'O'] }
+            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Ruinas del Sendero', img: './imagenes/Tiles/sala 1 EXT ruinas.webp', copies: 1, doors: ['O2', 'E2'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Cabaña Abandonada', img: './imagenes/Tiles/sala 2 EXT cabaña abandonada.webp', copies: 1, doors: ['N1', 'O2', 'E1'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Capilla del Camino', img: './imagenes/Tiles/sala 3 ext capilla.webp', copies: 1, doors: ['N1', 'S1'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Granero', img: './imagenes/Tiles/sala 4 ext Granero.webp', copies: 1, doors: ['O1', 'E2'] },
+            { env: 'Exterior (Zona Abierta)', type: 'Sala Plegable (16x16)', size: '16x16', name: 'Muelle', img: './imagenes/Tiles/sala 5 ext muelle.webp', copies: 1, doors: ['N1', 'O1', 'O2'] }
         ];
 
         // --- UTILIDAD: SANITIZAR RUTAS DE IMÁGENES (CONVIERTE RUTAS DE WINDOWS A RELATIVAS WEB) ---
@@ -1265,17 +1264,21 @@
             'Claro con Altar de Piedra': ''
         };
         const LEGACY_DEFAULT_STATS = {
-            'Cthulhu': 'Vida: 125 | Atq: 20-36 | Def: 4',
-            'Drácula': 'Vida: 115 | Atq: 25-37 | Def: 2',
-            'Dragón Ancestral': 'Vida: 130 | Atq: 22-38 | Def: 3',
-            'Medusa': 'Vida: 95 | Atq: 18-30 | Def: 2',
-            'Cíclope': 'Vida: 110 | Atq: 18-28 | Def: 2',
-            'Espectro': 'Vida: 75 | Atq: 16-26 | Def: 1',
-            'Huggy Kissy': 'Vida: 100 | Atq: 20-30 | Def: 2',
-            'Impostor': 'Vida: 85 | Atq: 18-25 | Def: 2',
-            'Camuflador': 'Vida: 80 | Atq: 17-24 | Def: 1',
-            'Pictal': 'Vida: 70 | Atq: 15-22 | Def: 1',
-            'Lobo Alfa': 'Vida: 20 | Atq: 18 | Def: 0'
+            'Cthulhu': 'Vida: 125 | Atq: 28-36 | Def: 4',
+            'Drácula': 'Vida: 110 | Atq: 32-44 | Def: 4',
+            'Nixar': 'Vida: 114 | Atq: 31-35 | Def: 2',
+            'Serpedraco': 'Vida: 120 | Atq: 20-26 | Def: 0',
+            'Elementales': 'Vida: 42 | Atq: 22-28 | Def: 4',
+            'Neofitos': 'Vida: 25 | Atq: 20-26 | Def: 0',
+            'Cíclope': 'Vida: 45 | Atq: 22-28 | Def: 0',
+            'Dragón': 'Vida: 28 | Atq: 17-19 | Def: 0',
+            'Pictal': 'Vida: 47 | Atq: 18-21 | Def: 0',
+            'Huggy Kissy': 'Vida: 40 | Atq: 19-25 | Def: 0',
+            'Medusa': 'Vida: 25 | Atq: 12-15 | Def: 0',
+            'Camuflador': 'Vida: 25 | Atq: 11-15 | Def: 0',
+            'Espectro': 'Vida: 22 | Atq: 15-21 | Def: 2',
+            'Impostor': 'Vida: 18 | Atq: 10-12 | Def: 0',
+            'Lobo Alfa': 'Vida: 20 | Atq: 18 | Def: 0',
         };
         // Snapshot de las puertas del catálogo base en la última versión desplegada.
         // Distingue "la loseta no fue tocada" (se actualiza al catálogo vigente) de "la editó a mano" (se respeta).
@@ -3566,43 +3569,53 @@
             return doors;
         }
 
-        async function reloadTilesMetadataFromJSON(silent = false) {
-            try {
-                const res = await fetch('./tiles_metadata.json?t=' + Date.now());
-                if (!res.ok) throw new Error("No se pudo cargar tiles_metadata.json");
-                const list = await res.json();
-                if (!Array.isArray(list) || list.length === 0) throw new Error("Formato inválido en tiles_metadata.json");
+        // Lee tiles_metadata.json y lo deja en TILES_METADATA_JSON (fuente de verdad de
+        // entradas y paredes). NO toca appState: se llama antes de cargar la partida.
+        async function fetchTilesMetadata() {
+            const res = await fetch('./tiles_metadata.json?t=' + Date.now());
+            if (!res.ok) throw new Error("No se pudo cargar tiles_metadata.json");
+            const list = await res.json();
+            if (!Array.isArray(list) || list.length === 0) throw new Error("Formato inválido en tiles_metadata.json");
+            // Se conserva el catálogo leído: es la fuente de verdad de entradas y paredes
+            // para la migración del estado inicial.
+            TILES_METADATA_JSON = list;
+            return list;
+        }
 
-                // Se conserva el catálogo leído: es la fuente de verdad de entradas y paredes
-                // para la migración del estado inicial.
-                TILES_METADATA_JSON = list;
+        // Aplica el catálogo sobre el estado YA CARGADO (nunca antes, para no pisar la partida).
+        function applyTilesMetadataFromJSON(list) {
+            appState.tiles = list.map(item => ({
+                id: item.id || '',
+                env: item.ambientacion || 'Caverna / Mazmorra',
+                type: item.tipo || 'Pasillo (8x8)',
+                size: (item.tipo && item.tipo.includes('16x16')) || item.size === '16x16' ? '16x16' : '8x8',
+                name: item.nombre || item.id,
+                img: sanitizeImagePath(item.imagen),
+                copies: item.copias || 2,
+                doors: parseAccesos(item.accesos, (item.tipo && item.tipo.includes('16x16')) || item.size === '16x16' || (item.nombre && item.nombre.toLowerCase().includes('trono'))),
+                descripcion: item.descripcion || ''
+            }));
 
-                appState.tiles = list.map(item => ({
-                    id: item.id || '',
-                    env: item.ambientacion || 'Caverna / Mazmorra',
-                    type: item.tipo || 'Pasillo (8x8)',
-                    size: (item.tipo && item.tipo.includes('16x16')) || item.size === '16x16' ? '16x16' : '8x8',
-                    name: item.nombre || item.id,
-                    img: sanitizeImagePath(item.imagen),
-                    copies: item.copias || 2,
-                    doors: parseAccesos(item.accesos, (item.tipo && item.tipo.includes('16x16')) || item.size === '16x16' || (item.nombre && item.nombre.toLowerCase().includes('trono'))),
-                    descripcion: item.descripcion || ''
-                }));
-
-                // Sincronizar celda inicial si ya está generada
-                if (appState.grid) {
-                    const startCell = appState.grid.find(c => c.revealed && c.tileName && c.tileName.toLowerCase().includes('entrada'));
-                    if (startCell) {
-                        const entDef = appState.tiles.find(t => t.name.toLowerCase().includes('entrada'));
-                        if (entDef) {
-                            startCell.rotation = getStartRotationForEntrance({ r: startCell.row, c: startCell.col }, entDef.doors);
-                        }
+            // Sincronizar celda inicial si ya está generada
+            if (appState.grid) {
+                const startCell = appState.grid.find(c => c.revealed && c.tileName && c.tileName.toLowerCase().includes('entrada'));
+                if (startCell) {
+                    const entDef = appState.tiles.find(t => t.name.toLowerCase().includes('entrada'));
+                    if (entDef) {
+                        startCell.rotation = getStartRotationForEntrance({ r: startCell.row, c: startCell.col }, entDef.doors);
                     }
                 }
+            }
 
+            saveToLocalStorage();
+        }
+
+        async function reloadTilesMetadataFromJSON(silent = false) {
+            try {
+                const list = await fetchTilesMetadata();
+                applyTilesMetadataFromJSON(list);
                 renderTiles();
                 renderTabletopMatrix();
-                saveToLocalStorage();
                 if (!silent) alert(`✅ ¡Sincronizado! Se cargaron ${appState.tiles.length} losetas desde tiles_metadata.json`);
             } catch(e) {
                 if (!silent) alert("⚠️ " + e.message);
@@ -3801,11 +3814,20 @@
 
         // Inicialización al cargar la página
         window.addEventListener('DOMContentLoaded', async () => {
-            // 1. Cargar metadatos primero para tener doors correctos
-            await reloadTilesMetadataFromJSON(true);
-            // 2. Cargar estado de partida guardado
+            // 1. Leer los metadatos de tiles (fuente de verdad de entradas y paredes).
+            //    No se toca appState todavía: se hace ANTES de cargar la partida guardada.
+            let listaTiles = null;
+            try {
+                listaTiles = await fetchTilesMetadata();
+            } catch (e) {
+                console.warn('No se pudieron cargar los metadatos de tiles:', e);
+            }
+            // 2. Cargar el estado de partida guardado (después de leer los metadatos,
+            //    para que la migración use el catálogo vigente).
             loadFromLocalStorage();
-            // 3. Renderizar interfaz completa
+            // 3. Aplicar el catálogo de tiles sobre el estado ya cargado.
+            if (listaTiles) applyTilesMetadataFromJSON(listaTiles);
+            // 4. Renderizar interfaz completa
             applyLoadedState();
         });
     </script>
