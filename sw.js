@@ -15,7 +15,7 @@ const SHELL = [
   './iconos/icono-maskable-512.png',
   './iconos/apple-touch-icon.png',
   './iconos/favicon-32.png',
-  'https://cdn.tailwindcss.com'
+  './vendor/tailwind.js'
 ];
 
 self.addEventListener('install', (event) => {

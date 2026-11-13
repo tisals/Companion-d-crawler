@@ -36,6 +36,8 @@ Queda con icono propio (espadas cruzadas), se abre sin barras del navegador y **
 ## Cosas que conviene saber
 
 - **Cada dispositivo tiene su propia partida**: el estado vive en el `localStorage` del navegador.
+- **Tailwind está auto-alojado** en `vendor/tailwind.js` (397 KB): la app no depende del CDN y abre
+  igual sin internet. Si actualizás Tailwind, hay que volver a bajar el bundle y parchear el `console.warn`.
 - **El repo NO lleva el material de imprenta**: los PDF de impresión, los PSD y los PNG masters (135 MB)
   siguen en esta carpeta de OneDrive; al repo solo van los `.webp` que usa la app.
 - **Si cambiás una imagen**: volvé a exportarla como PNG y corré `python tools/convertir-webp.py`,
