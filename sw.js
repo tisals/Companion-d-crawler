@@ -2,7 +2,7 @@
 // Estrategia: Network-First (el archivo más reciente se ve al instante) con respaldo en caché.
 // El "shell" de la app se precachea al instalar para que abra offline en el celular.
 
-const CACHE_NAME = 'kikin-battles-v23';
+const CACHE_NAME = 'kikin-battles-v24';
 
 // Archivos indispensables para que la app arranque sin conexión.
 const SHELL = [
@@ -14,13 +14,18 @@ const SHELL = [
   './iconos/icono-512.png',
   './iconos/icono-maskable-512.png',
   './iconos/apple-touch-icon.png',
-  './iconos/favicon-32.png'
+  './iconos/favicon-32.png',
+  'https://cdn.tailwindcss.com'
 ];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
+  // Cada archivo se cachea por separado: que uno falle (ej. el CDN sin CORS)
+  // no puede impedir que se guarde el resto del shell.
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL)).catch(() => {})
+    caches.open(CACHE_NAME).then((cache) =>
+      Promise.allSettled(SHELL.map((url) => cache.add(url)))
+    )
   );
 });
 
