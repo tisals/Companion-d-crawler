@@ -1,0 +1,17 @@
+# --- Material de diseño e imprenta (no forma parte de la app web) ---
+*.pdf
+*.psd
+*.pnp
+
+# Masters PNG del arte: la app usa las versiones .webp (10x más livianas para el celu).
+imagenes/Tiles/*.png
+imagenes/Cartas/*.png
+
+# Arte antiguo sin uso en la app
+imagenes/image.png_*.jpg
+imagenes/tabletop_modular_game_studio.html
+dungeon_master_hub.html
+
+# Sistema
+.DS_Store
+Thumbs.db

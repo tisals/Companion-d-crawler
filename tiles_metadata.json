@@ -1,0 +1,552 @@
+[
+  {
+    "id": "entrada_y_salida",
+    "nombre": "Entrada y Salida",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/ENTRADA-SALIDA X2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": false,
+      "sur": false,
+      "este": false,
+      "oeste": true
+    }
+  },
+  {
+    "id": "pasillo_interior_central",
+    "nombre": "Pasillo Interior Central",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo interior x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "pasillo_interior_arcada",
+    "nombre": "Pasillo Interior Arcada",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo 1 interior x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "pasillo_interior_columnas",
+    "nombre": "Pasillo Interior Columnas",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo 2 interior x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "pasillo_interior_cripta",
+    "nombre": "Pasillo Interior Cripta",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo 3 interior x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "giro_en_l_mazmorra",
+    "nombre": "Giro en L Mazmorra",
+    "tipo": "Giro en L (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo L x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": false
+    }
+  },
+  {
+    "id": "giro_en_l_antorchas",
+    "nombre": "Giro en L Antorchas",
+    "tipo": "Giro en L (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo L1 x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": false
+    }
+  },
+  {
+    "id": "giro_en_l_foso",
+    "nombre": "Giro en L Foso",
+    "tipo": "Giro en L (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo L2 x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": false
+    }
+  },
+  {
+    "id": "cruce_t_mazmorra",
+    "nombre": "Cruce T Mazmorra",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo t x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "cruce_t1_mazmorra",
+    "nombre": "Cruce T1 Mazmorra",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo t1 x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "cruce_t2_mazmorra",
+    "nombre": "Cruce T2 Mazmorra",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo t2 x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "cruce_t3_mazmorra",
+    "nombre": "Cruce T3 Mazmorra",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/Pasillo t3 x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "c_mara_del_trono_maldita",
+    "nombre": "Cámara del Trono Maldita",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/sala 5 int trono maldita.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "c_mara_t_xica",
+    "nombre": "Cámara Tóxica",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/sala 1 int toxica.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "altar_de_piedra",
+    "nombre": "Altar de Piedra",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/sala 2 int altar.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "gran_hall",
+    "nombre": "Gran Hall",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/sala 3 int Lobby.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "torre_del_reloj",
+    "nombre": "Torre del Reloj",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Caverna / Mazmorra",
+    "imagen": "./imagenes/Tiles/sala 4 int Torre reloj.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "entrada_y_salida_exterior",
+    "nombre": "Entrada y Salida Exterior",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/ENTRADA-SALIDA ext X2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": false,
+      "sur": false,
+      "este": false,
+      "oeste": true
+    }
+  },
+  {
+    "id": "sendero_exterior",
+    "nombre": "Sendero Exterior",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "sendero_rocoso",
+    "nombre": "Sendero Rocoso",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo 1 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "sendero_forestal",
+    "nombre": "Sendero Forestal",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo 2 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "sendero_con_ruinas",
+    "nombre": "Sendero con Ruinas",
+    "tipo": "Pasillo (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo 3 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": true,
+      "este": false,
+      "oeste": false
+    }
+  },
+  {
+    "id": "curva_en_l_exterior",
+    "nombre": "Curva en L Exterior",
+    "tipo": "Giro en L (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo L ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": false
+    }
+  },
+  {
+    "id": "curva_en_l_arbustos",
+    "nombre": "Curva en L Arbustos",
+    "tipo": "Giro en L (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo L1 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": false
+    }
+  },
+  {
+    "id": "curva_en_l_rocas",
+    "nombre": "Curva en L Rocas",
+    "tipo": "Giro en L (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo L2 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": false
+    }
+  },
+  {
+    "id": "cruce_t_sendero",
+    "nombre": "Cruce T Sendero",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo t ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "cruce_en_t_sendero",
+    "nombre": "Cruce en T Sendero",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo t1 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "cruce_en_t_arboleda",
+    "nombre": "Cruce en T Arboleda",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo t2 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "cruce_en_t_ci_naga",
+    "nombre": "Cruce en T Ciénaga",
+    "tipo": "Cruce en T (8x8)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/Pasillo t3 ext x2.webp",
+    "copias": 2,
+    "descripcion": "",
+    "accesos": {
+      "norte": true,
+      "sur": false,
+      "este": true,
+      "oeste": true
+    }
+  },
+  {
+    "id": "ruinas_del_sendero",
+    "nombre": "Ruinas del Sendero",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/sala 1 EXT ruinas.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "caba_a_abandonada",
+    "nombre": "Cabaña Abandonada",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/sala 2 EXT cabaña abandonada.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "capilla_del_camino",
+    "nombre": "Capilla del Camino",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/sala 3 ext capilla.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "granero",
+    "nombre": "Granero",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/sala 4 ext Granero.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  },
+  {
+    "id": "muelle",
+    "nombre": "Muelle",
+    "tipo": "Sala Plegable (16x16)",
+    "ambientacion": "Exterior (Zona Abierta)",
+    "imagen": "./imagenes/Tiles/sala 5 ext muelle.webp",
+    "copias": 1,
+    "descripcion": "",
+    "accesos": {
+      "norte1": true,
+      "norte2": true,
+      "sur1": true,
+      "sur2": true,
+      "oeste1": true,
+      "oeste2": true,
+      "este1": true,
+      "este2": true
+    }
+  }
+]
