@@ -135,7 +135,7 @@
 <body class="h-full flex flex-col overflow-hidden select-none">
 
     <!-- ================= CABECERA SUPERIOR FIJA ================= -->
-    <header class="bg-[#16161d] border-b border-[#2a2a38] px-3.5 py-2.5 flex items-center justify-between shrink-0 z-30 shadow-md">
+    <header class="bg-[#16161d] border-b border-[#2a2a38] px-3.5 py-2.5 flex flex-wrap items-center justify-between shrink-0 z-30 shadow-md">
         <div class="flex items-center space-x-2">
             <div class="w-8 h-8 rounded-lg bg-[rgba(201,162,39,0.15)] text-[#c9a227] flex items-center justify-center font-bold text-sm border border-[#8a7020]">
                 ⚔️
@@ -163,7 +163,7 @@
 
             <!-- AP Tracker -->
             <div class="flex items-center bg-[#121216] px-2 py-1 rounded-lg border border-[#2a2a38] space-x-1.5">
-                <span class="text-[10px] font-bold text-[#c9a227]">⚡ AP</span>
+                <span class="text-[10px] font-bold text-[#c9a227]">⚡<span class="hidden sm:inline"> AP</span></span>
                 <button onclick="adjustAP(-1)" class="w-5 h-5 rounded bg-[#1c1c24] text-slate-300 font-bold text-xs flex items-center justify-center active:bg-[#2a2a38]">-</button>
                 <span id="global-ap-val" class="text-xs font-bold text-white min-w-[14px] text-center">3</span>
                 <button onclick="adjustAP(1)" class="w-5 h-5 rounded bg-[#c9a227] text-black font-bold text-xs flex items-center justify-center active:bg-[#e0b82e]">+</button>
@@ -171,7 +171,7 @@
 
             <!-- Peligro Tracker -->
             <div class="flex items-center bg-[#121216] px-2 py-1 rounded-lg border border-[#2a2a38] space-x-1.5">
-                <span class="text-[10px] font-bold text-rose-400">🔥 PELIGRO</span>
+                <span class="text-[10px] font-bold text-rose-400">🔥<span class="hidden sm:inline"> PELIGRO</span></span>
                 <button onclick="adjustDanger(-1)" class="w-5 h-5 rounded bg-[#1c1c24] text-slate-300 font-bold text-xs flex items-center justify-center active:bg-[#2a2a38]">-</button>
                 <span id="global-danger-val" class="text-xs font-bold text-rose-300 min-w-[14px] text-center">1</span>
                 <button onclick="adjustDanger(1)" class="w-5 h-5 rounded bg-rose-700 text-white font-bold text-xs flex items-center justify-center active:bg-rose-600">+</button>
@@ -180,7 +180,7 @@
     </header>
 
     <!-- ================= PESTAÑAS SUPERIORES ================= -->
-    <nav class="bg-[#121216] border-b border-[#2a2a38] px-2 py-1.5 overflow-x-auto custom-scroll flex items-center gap-1.5 shrink-0 z-20">
+    <nav class="bg-[#121216] border-b border-[#2a2a38] px-2 py-1.5 overflow-x-auto custom-scroll hidden md:flex items-center gap-1.5 shrink-0 z-20">
         <button onclick="switchTab('tabletop')" id="top-tab-tabletop" class="dm-tab-btn active">
             🗺️ Mesa Táctica (Core)
         </button>
