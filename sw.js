@@ -2,7 +2,7 @@
 // Estrategia: Network-First (el archivo más reciente se ve al instante) con respaldo en caché.
 // El "shell" de la app se precachea al instalar para que abra offline en el celular.
 
-const CACHE_NAME = 'kikin-battles-v24';
+const CACHE_NAME = 'kikin-battles-v25';
 
 // Archivos indispensables para que la app arranque sin conexión.
 const SHELL = [
@@ -47,8 +47,20 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
+  // El código de la app se revalida SIEMPRE contra el servidor. Sin esto, el
+  // navegador puede responder con un index.html viejo desde su caché HTTP
+  // (GitHub Pages manda max-age=60) y la PWA seguiría mostrando la versión
+  // anterior después de un deploy.
+  const url = new URL(event.request.url);
+  const esCodigo = event.request.mode === 'navigate'
+    || /\.(?:html|js|json|webmanifest)$/i.test(url.pathname);
+
+  const pedir = esCodigo
+    ? fetch(event.request, { cache: 'no-cache' })
+    : fetch(event.request);
+
   event.respondWith(
-    fetch(event.request)
+    pedir
       .then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const responseClone = networkResponse.clone();
