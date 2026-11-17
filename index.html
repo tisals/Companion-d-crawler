@@ -224,17 +224,26 @@
 
                 <!-- COLUMNA CENTRAL: MAPA DE LA MAZMORRA -->
                 <div class="lg:col-span-6 space-y-2 order-1 lg:order-2">
-                    <div class="flex items-center justify-between text-xs px-1">
-                        <span class="text-[#9a9690] font-medium flex items-center gap-1.5">
-                            <span>🗺️</span> Grilla Modular (Casilla = 8x8 | Sala = 2x2)
+                    <div class="flex items-center justify-between gap-2 text-xs px-1">
+                        <span class="text-[#9a9690] font-medium flex items-center gap-1.5 min-w-0">
+                            <span>🗺️</span>
+                            <span class="hidden sm:inline truncate">Grilla Modular (Casilla = 8x8 | Sala = 2x2)</span>
+                            <span class="sm:hidden">Grilla</span>
                         </span>
-                        <button onclick="resetTabletopGrid()" class="text-[10px] text-rose-400 hover:text-rose-300 bg-rose-950/40 px-2 py-0.5 rounded border border-rose-900/60">
-                            Reiniciar Mesa
-                        </button>
+                        <div class="flex items-center gap-1 shrink-0">
+                            <div class="flex items-center bg-[#121216] border border-[#2a2a38] rounded overflow-hidden" title="Zoom del mapa: rueda del mouse, pellizco con dos dedos o estos botones">
+                                <button onclick="zoomMapBy(0.8)" class="w-7 h-7 flex items-center justify-center text-[#9a9690] hover:text-[#c9a227] hover:bg-[#1c1c24] text-base leading-none" title="Alejar">−</button>
+                                <button onclick="resetMapZoom()" class="w-12 h-7 text-[10px] font-mono text-[#c9a227] hover:bg-[#1c1c24]" title="Volver al 100%"><span id="map-zoom-label">100%</span></button>
+                                <button onclick="zoomMapBy(1.25)" class="w-7 h-7 flex items-center justify-center text-[#9a9690] hover:text-[#c9a227] hover:bg-[#1c1c24] text-base leading-none" title="Acercar">+</button>
+                            </div>
+                            <button onclick="resetTabletopGrid()" class="text-[10px] text-rose-400 hover:text-rose-300 bg-rose-950/40 px-2 py-0.5 rounded border border-rose-900/60">
+                                Reiniciar<span class="hidden sm:inline"> Mesa</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="dm-card p-2 overflow-x-auto flex justify-center bg-[#0a0a0d] shadow-2xl border border-[#2a2a38]">
-                        <div id="tabletop-matrix-grid" class="grid grid-cols-6 border border-[#2a2a38] bg-black" style="width: min(100%, 480px); gap: 0;">
+                    <div id="map-viewport" class="dm-card p-2 relative overflow-hidden bg-[#0a0a0d] shadow-2xl border border-[#2a2a38]" style="touch-action: pan-x pan-y;">
+                        <div id="tabletop-matrix-grid" class="grid grid-cols-6 absolute top-0 left-0 border border-[#2a2a38] bg-black" style="width: min(100%, 480px); gap: 0;">
                             <!-- Las 36 celdas tácticas (6x6) -->
                         </div>
                     </div>
@@ -2186,6 +2195,231 @@
             renderFFSidebars();
         }
 
+        // ============================================================
+        // NAVEGACIÓN DEL MAPA: zoom (rueda / pellizco) y paneo (2 dedos)
+        // ============================================================
+        // El mapa vive dentro de #map-viewport, que hace de visor: el tablero se
+        // posiciona en absoluto y se mueve con translate. Así el zoom agranda las
+        // casillas de verdad (no es un transform que las deforme) y el paneo es
+        // independiente del scroll de la página.
+        const MAP_ZOOM_MIN = 0.5;
+        const MAP_ZOOM_MAX = 3;
+        const MAP_GRID_MAX_W = 480;   // ancho máximo del mapa al 100%
+
+        let mapZoom = 1;
+        let mapPanX = 0;
+        let mapPanY = 0;
+        let mapGesture = null;        // gesto de dos dedos en curso
+        let mapSaveTimer = null;
+
+        function mapEls() {
+            const grid = document.getElementById('tabletop-matrix-grid');
+            const viewport = document.getElementById('map-viewport');
+            if (!grid || !viewport) return null;
+            return { grid, viewport };
+        }
+
+        // Ancho del mapa al 100%: el que entra en el visor (nunca más de 480px).
+        function mapBaseWidth() {
+            const els = mapEls();
+            if (!els) return MAP_GRID_MAX_W;
+            const cs = getComputedStyle(els.viewport);
+            const inner = els.viewport.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+            return Math.max(180, Math.min(inner, MAP_GRID_MAX_W));
+        }
+
+        // Calcula la geometría del visor y deja el tablero con el ancho del zoom.
+        // Devuelve las medidas en px (origen del visor, tamaño del mapa, área visible).
+        function layoutMap() {
+            const els = mapEls();
+            if (!els) return null;
+            const cs = getComputedStyle(els.viewport);
+            const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+            const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+            const bordX = parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
+            const bordY = parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+
+            els.grid.style.width = Math.round(mapBaseWidth() * mapZoom) + 'px';
+            const gw = els.grid.offsetWidth;
+            const gh = els.grid.offsetHeight;
+
+            // Todavía no hay tamaño medible: la pestaña está oculta o el CSS de
+            // Tailwind todavía no se aplicó. Se reintenta en el próximo render.
+            if (!gw || !gh) return null;
+
+            // El visor toma la altura del mapa al 100% (el tablero es cuadrado).
+            const altoBase = Math.round(gh / mapZoom);
+            els.viewport.style.height = Math.round(altoBase + padY + bordY) + 'px';
+
+            // clientWidth/clientHeight ya excluyen el borde: solo hay que restar el padding.
+            const innerW = els.viewport.clientWidth - padX;
+            const innerH = els.viewport.clientHeight - padY;
+            const vr = els.viewport.getBoundingClientRect();
+            return {
+                els, gw, gh, innerW, innerH,
+                originX: vr.left + bordX + parseFloat(cs.paddingLeft),
+                originY: vr.top + bordY + parseFloat(cs.paddingTop)
+            };
+        }
+
+        // Mantiene el tablero dentro del visor: centrado si entra, pegado a los
+        // bordes si es más grande.
+        function clampMapPan(m) {
+            if (m.gw <= m.innerW) mapPanX = (m.innerW - m.gw) / 2;
+            else mapPanX = Math.min(0, Math.max(m.innerW - m.gw, mapPanX));
+            if (m.gh <= m.innerH) mapPanY = (m.innerH - m.gh) / 2;
+            else mapPanY = Math.min(0, Math.max(m.innerH - m.gh, mapPanY));
+        }
+
+        function paintMap(m) {
+            m.els.grid.style.transform = `translate(${Math.round(mapPanX)}px, ${Math.round(mapPanY)}px)`;
+        }
+
+        // Reaplica el tamaño y la posición (tras renderizar, redimensionar o cambiar el zoom).
+        function applyMapView() {
+            const m = layoutMap();
+            if (!m) return;
+            clampMapPan(m);
+            paintMap(m);
+            updateMapZoomUI();
+        }
+
+        // Cambia el zoom manteniendo fijo el punto (x, y) de pantalla indicado.
+        function setMapZoom(nuevoZoom, anclaX, anclaY) {
+            const z = Math.min(MAP_ZOOM_MAX, Math.max(MAP_ZOOM_MIN, nuevoZoom));
+            if (Math.abs(z - mapZoom) < 0.0001) return;
+            const m0 = layoutMap();
+            if (!m0) return;
+            // Posición del ancla dentro del tablero, en px de contenido.
+            const ax = anclaX - (m0.originX + mapPanX);
+            const ay = anclaY - (m0.originY + mapPanY);
+            const factor = z / mapZoom;
+
+            mapZoom = z;
+            const m1 = layoutMap();
+            if (!m1) return;
+            // El tablero creció desde su esquina: se compensa para que el ancla
+            // siga bajo el cursor o el dedo.
+            mapPanX = anclaX - m1.originX - ax * factor;
+            mapPanY = anclaY - m1.originY - ay * factor;
+            clampMapPan(m1);
+            paintMap(m1);
+            updateMapZoomUI();
+            persistMapView();
+        }
+
+        function zoomMapBy(factor) {
+            const m = layoutMap();
+            if (!m) return;
+            setMapZoom(mapZoom * factor, m.originX + m.innerW / 2, m.originY + m.innerH / 2);
+        }
+
+        function resetMapZoom() {
+            const m = layoutMap();
+            if (!m) return;
+            setMapZoom(1, m.originX + m.innerW / 2, m.originY + m.innerH / 2);
+        }
+
+        function updateMapZoomUI() {
+            const label = document.getElementById('map-zoom-label');
+            if (label) label.textContent = Math.round(mapZoom * 100) + '%';
+        }
+
+        // El zoom y el paneo se guardan para que la mesa se vea igual al recargar.
+        function persistMapView() {
+            clearTimeout(mapSaveTimer);
+            mapSaveTimer = setTimeout(() => {
+                appState.mapZoom = mapZoom;
+                appState.mapPanX = mapPanX;
+                appState.mapPanY = mapPanY;
+                saveToLocalStorage();
+            }, 400);
+        }
+
+        function restoreMapView() {
+            if (typeof appState.mapZoom === 'number' && isFinite(appState.mapZoom)) {
+                mapZoom = Math.min(MAP_ZOOM_MAX, Math.max(MAP_ZOOM_MIN, appState.mapZoom));
+                mapPanX = Number(appState.mapPanX) || 0;
+                mapPanY = Number(appState.mapPanY) || 0;
+            }
+        }
+
+        function initMapGestures() {
+            const els = mapEls();
+            if (!els || els.viewport.dataset.gesturesInit) return;
+            els.viewport.dataset.gesturesInit = '1';
+
+            // --- Rueda del mouse: zoom con el cursor como ancla ---
+            els.viewport.addEventListener('wheel', (e) => {
+                if (!e.deltaY) return;
+                let delta = e.deltaY;
+                if (e.deltaMode === 1) delta *= 16;        // líneas -> píxeles
+                else if (e.deltaMode === 2) delta *= 400;   // páginas -> píxeles
+                const nuevo = mapZoom * Math.exp(-delta * 0.0015);
+                // En el límite el scroll normal de la página sigue funcionando.
+                if (nuevo < MAP_ZOOM_MIN || nuevo > MAP_ZOOM_MAX) return;
+                e.preventDefault();
+                setMapZoom(nuevo, e.clientX, e.clientY);
+            }, { passive: false });
+
+            // --- Táctil: pellizco (zoom) y arrastre de dos dedos (paneo) ---
+            const centro = (t1, t2) => ({
+                x: (t1.clientX + t2.clientX) / 2,
+                y: (t1.clientY + t2.clientY) / 2
+            });
+            const distancia = (t1, t2) => Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
+
+            els.viewport.addEventListener('touchstart', (e) => {
+                if (e.touches.length !== 2) { mapGesture = null; return; }
+                const [t1, t2] = e.touches;
+                mapGesture = {
+                    dist: distancia(t1, t2),
+                    centro: centro(t1, t2),
+                    zoom: mapZoom
+                };
+                e.preventDefault();
+            }, { passive: false });
+
+            els.viewport.addEventListener('touchmove', (e) => {
+                if (e.touches.length !== 2 || !mapGesture) return;
+                e.preventDefault();
+                const [t1, t2] = e.touches;
+                const c = centro(t1, t2);
+                const dist = distancia(t1, t2);
+
+                // 1) Paneo: el centro del gesto arrastra el tablero.
+                mapPanX += (c.x - mapGesture.centro.x);
+                mapPanY += (c.y - mapGesture.centro.y);
+                mapGesture.centro = c;
+
+                // 2) Zoom: la escala se mide contra la distancia INICIAL del
+                //    gesto (juntar los dedos aleja, separarlos acerca).
+                const nuevo = mapGesture.zoom * (dist / (mapGesture.dist || dist));
+                const m = layoutMap();
+                if (!m) return;
+                const ax = c.x - (m.originX + mapPanX);
+                const ay = c.y - (m.originY + mapPanY);
+                const factor = nuevo / mapZoom;
+                mapZoom = Math.min(MAP_ZOOM_MAX, Math.max(MAP_ZOOM_MIN, nuevo));
+                const m2 = layoutMap();
+                if (!m2) return;
+                mapPanX = c.x - m2.originX - ax * factor;
+                mapPanY = c.y - m2.originY - ay * factor;
+                clampMapPan(m2);
+                paintMap(m2);
+                updateMapZoomUI();
+            }, { passive: false });
+
+            const finGesto = (e) => {
+                if (e.touches.length < 2) {
+                    mapGesture = null;
+                    persistMapView();
+                }
+            };
+            els.viewport.addEventListener('touchend', finGesto);
+            els.viewport.addEventListener('touchcancel', finGesto);
+        }
+
         // Función matemática para calcular las puertas activas de un tile según su rotación (0, 90, 180, 270)
         const ROT_ROOM_8_MAP = {
             'N1': 'E1', 'N2': 'E2',
@@ -3827,9 +4061,28 @@
             loadFromLocalStorage();
             // 3. Aplicar el catálogo de tiles sobre el estado ya cargado.
             if (listaTiles) applyTilesMetadataFromJSON(listaTiles);
-            // 4. Renderizar interfaz completa
+            // 4. Restaurar la vista del mapa (zoom y paneo guardados) y activar los gestos.
+            restoreMapView();
+            initMapGestures();
+            // 5. Renderizar interfaz completa
             applyLoadedState();
+
+            // Al cambiar el tamaño de la ventana el mapa se reacomoda.
+            let resizeTimer = null;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(applyMapView, 150);
+            });
+
+            // Red de seguridad: si la pestaña estaba oculta al renderizar, el
+            // mapa se reacomoda al volver a mostrarla.
+            setTimeout(applyMapView, 80);
         });
+
+        // Tailwind se inyecta después del DOMContentLoaded: cuando la página
+        // termina de cargar, el mapa se mide de nuevo con el CSS ya aplicado.
+        // El listener se registra fuera del handler async para no perder el evento.
+        window.addEventListener('load', () => setTimeout(applyMapView, 60));
     </script>
 </body>
 </html>
