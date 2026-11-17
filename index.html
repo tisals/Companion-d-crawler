@@ -242,7 +242,7 @@
                         </div>
                     </div>
 
-                    <div id="map-viewport" class="dm-card p-2 relative overflow-hidden bg-[#0a0a0d] shadow-2xl border border-[#2a2a38]" style="touch-action: pan-x pan-y;">
+                    <div id="map-viewport" class="dm-card p-2 relative overflow-hidden bg-[#0a0a0d] shadow-2xl border border-[#2a2a38]" style="touch-action: none;">
                         <div id="tabletop-matrix-grid" class="grid grid-cols-6 absolute top-0 left-0 border border-[#2a2a38] bg-black" style="width: min(100%, 480px); gap: 0;">
                             <!-- Las 36 celdas tácticas (6x6) -->
                         </div>
@@ -2344,13 +2344,33 @@
             }
         }
 
+        // ¿El mapa tiene espacio para desplazarse? (solo si está más grande que el visor)
+        function mapPuedePanear() {
+            const m = layoutMap();
+            if (!m) return false;
+            return m.gw > m.innerW + 1 || m.gh > m.innerH + 1;
+        }
+
         function initMapGestures() {
             const els = mapEls();
             if (!els || els.viewport.dataset.gesturesInit) return;
             els.viewport.dataset.gesturesInit = '1';
 
-            // --- Rueda del mouse: zoom con el cursor como ancla ---
+            // ================= RUEDA DEL MOUSE =================
             els.viewport.addEventListener('wheel', (e) => {
+                // Shift + rueda: desplaza el mapa en horizontal (como el navegador).
+                if (e.shiftKey) {
+                    e.preventDefault();
+                    const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+                    mapPanX -= d;
+                    const m = layoutMap();
+                    if (!m) return;
+                    clampMapPan(m);
+                    paintMap(m);
+                    updateMapZoomUI();
+                    persistMapView();
+                    return;
+                }
                 if (!e.deltaY) return;
                 let delta = e.deltaY;
                 if (e.deltaMode === 1) delta *= 16;        // líneas -> píxeles
@@ -2362,7 +2382,51 @@
                 setMapZoom(nuevo, e.clientX, e.clientY);
             }, { passive: false });
 
-            // --- Táctil: pellizco (zoom) y arrastre de dos dedos (paneo) ---
+            // ================= ARRASTRE CON EL MOUSE: PANEO =================
+            let arrastre = null;
+            let suprimirClick = false;
+
+            els.viewport.addEventListener('pointerdown', (e) => {
+                if (e.pointerType !== 'mouse' || e.button !== 0) return;
+                suprimirClick = false;
+                arrastre = { x: e.clientX, y: e.clientY, panX: mapPanX, panY: mapPanY, movido: false };
+                try { els.viewport.setPointerCapture(e.pointerId); } catch (_) { }
+            });
+
+            els.viewport.addEventListener('pointermove', (e) => {
+                if (!arrastre) return;
+                const dx = e.clientX - arrastre.x;
+                const dy = e.clientY - arrastre.y;
+                if (!arrastre.movido && Math.hypot(dx, dy) < 4) return;
+                arrastre.movido = true;
+                mapPanX = arrastre.panX + dx;
+                mapPanY = arrastre.panY + dy;
+                const m = layoutMap();
+                if (!m) return;
+                clampMapPan(m);
+                paintMap(m);
+                updateMapZoomUI();
+            });
+
+            const finArrastre = () => {
+                if (!arrastre) return;
+                // Un arrastre no debe abrir la casilla donde terminó el puntero.
+                if (arrastre.movido) suprimirClick = true;
+                arrastre = null;
+                persistMapView();
+            };
+            els.viewport.addEventListener('pointerup', finArrastre);
+            els.viewport.addEventListener('pointercancel', finArrastre);
+
+            // Bloquea el click que genera el arrastre (captura: corta antes que la celda).
+            els.viewport.addEventListener('click', (e) => {
+                if (!suprimirClick) return;
+                suprimirClick = false;
+                e.stopPropagation();
+                e.preventDefault();
+            }, true);
+
+            // ================= TÁCTIL: PELLIZCO + PANEO =================
             const centro = (t1, t2) => ({
                 x: (t1.clientX + t2.clientX) / 2,
                 y: (t1.clientY + t2.clientY) / 2
@@ -2370,44 +2434,81 @@
             const distancia = (t1, t2) => Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY);
 
             els.viewport.addEventListener('touchstart', (e) => {
-                if (e.touches.length !== 2) { mapGesture = null; return; }
-                const [t1, t2] = e.touches;
-                mapGesture = {
-                    dist: distancia(t1, t2),
-                    centro: centro(t1, t2),
-                    zoom: mapZoom
-                };
-                e.preventDefault();
+                if (e.touches.length === 2) {
+                    const [t1, t2] = e.touches;
+                    mapGesture = {
+                        tipo: 'pinch',
+                        dist: distancia(t1, t2),
+                        centro: centro(t1, t2),
+                        zoom: mapZoom
+                    };
+                    e.preventDefault();
+                } else if (e.touches.length === 1) {
+                    const t = e.touches[0];
+                    mapGesture = {
+                        tipo: 'dedo',
+                        x: t.clientX, y: t.clientY,
+                        panX: mapPanX, panY: mapPanY,
+                        puedePanear: mapPuedePanear()
+                    };
+                }
             }, { passive: false });
 
             els.viewport.addEventListener('touchmove', (e) => {
-                if (e.touches.length !== 2 || !mapGesture) return;
-                e.preventDefault();
-                const [t1, t2] = e.touches;
-                const c = centro(t1, t2);
-                const dist = distancia(t1, t2);
+                if (!mapGesture) return;
 
-                // 1) Paneo: el centro del gesto arrastra el tablero.
-                mapPanX += (c.x - mapGesture.centro.x);
-                mapPanY += (c.y - mapGesture.centro.y);
-                mapGesture.centro = c;
+                // --- Dos dedos: pellizco (zoom) + arrastre (paneo) ---
+                if (mapGesture.tipo === 'pinch' && e.touches.length === 2) {
+                    e.preventDefault();
+                    const [t1, t2] = e.touches;
+                    const c = centro(t1, t2);
+                    const dist = distancia(t1, t2);
 
-                // 2) Zoom: la escala se mide contra la distancia INICIAL del
-                //    gesto (juntar los dedos aleja, separarlos acerca).
-                const nuevo = mapGesture.zoom * (dist / (mapGesture.dist || dist));
-                const m = layoutMap();
-                if (!m) return;
-                const ax = c.x - (m.originX + mapPanX);
-                const ay = c.y - (m.originY + mapPanY);
-                const factor = nuevo / mapZoom;
-                mapZoom = Math.min(MAP_ZOOM_MAX, Math.max(MAP_ZOOM_MIN, nuevo));
-                const m2 = layoutMap();
-                if (!m2) return;
-                mapPanX = c.x - m2.originX - ax * factor;
-                mapPanY = c.y - m2.originY - ay * factor;
-                clampMapPan(m2);
-                paintMap(m2);
-                updateMapZoomUI();
+                    // 1) Paneo: el centro del gesto arrastra el tablero.
+                    mapPanX += (c.x - mapGesture.centro.x);
+                    mapPanY += (c.y - mapGesture.centro.y);
+                    mapGesture.centro = c;
+
+                    // 2) Zoom: la escala se mide contra la distancia INICIAL del
+                    //    gesto (juntar los dedos aleja, separarlos acerca).
+                    const nuevo = mapGesture.zoom * (dist / (mapGesture.dist || dist));
+                    const m = layoutMap();
+                    if (!m) return;
+                    const ax = c.x - (m.originX + mapPanX);
+                    const ay = c.y - (m.originY + mapPanY);
+                    const factor = nuevo / mapZoom;
+                    mapZoom = Math.min(MAP_ZOOM_MAX, Math.max(MAP_ZOOM_MIN, nuevo));
+                    const m2 = layoutMap();
+                    if (!m2) return;
+                    mapPanX = c.x - m2.originX - ax * factor;
+                    mapPanY = c.y - m2.originY - ay * factor;
+                    clampMapPan(m2);
+                    paintMap(m2);
+                    updateMapZoomUI();
+                    return;
+                }
+
+                // --- Un dedo: desplaza el mapa si hay zoom; si no, desliza la página ---
+                if (mapGesture.tipo === 'dedo' && e.touches.length === 1) {
+                    const t = e.touches[0];
+                    const dx = t.clientX - mapGesture.x;
+                    const dy = t.clientY - mapGesture.y;
+                    if (Math.hypot(dx, dy) < 3) return;
+                    if (mapGesture.puedePanear) {
+                        e.preventDefault();
+                        mapPanX = mapGesture.panX + dx;
+                        mapPanY = mapGesture.panY + dy;
+                        const m = layoutMap();
+                        if (!m) return;
+                        clampMapPan(m);
+                        paintMap(m);
+                        updateMapZoomUI();
+                    } else {
+                        // Sin zoom no hay paneo: el dedo desplaza la página.
+                        const main = document.querySelector('main');
+                        if (main) main.scrollTop -= dy;
+                    }
+                }
             }, { passive: false });
 
             const finGesto = (e) => {
