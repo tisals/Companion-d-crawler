@@ -236,6 +236,7 @@
                                 <button onclick="resetMapZoom()" class="w-12 h-7 text-[10px] font-mono text-[#c9a227] hover:bg-[#1c1c24]" title="Volver al 100%"><span id="map-zoom-label">100%</span></button>
                                 <button onclick="zoomMapBy(1.25)" class="w-7 h-7 flex items-center justify-center text-[#9a9690] hover:text-[#c9a227] hover:bg-[#1c1c24] text-base leading-none" title="Acercar">+</button>
                             </div>
+                            <button onclick="sacarEvento(null, 'Mesa')" class="text-[10px] text-[#c9a227] hover:text-[#ffd700] bg-[#1c180a] px-2 py-0.5 rounded border border-[#8a7020]" title="Sacar un evento del mazo">🎴 Evento</button>
                             <button onclick="resetTabletopGrid()" class="text-[10px] text-rose-400 hover:text-rose-300 bg-rose-950/40 px-2 py-0.5 rounded border border-rose-900/60">
                                 Reiniciar<span class="hidden sm:inline"> Mesa</span>
                             </button>
@@ -585,6 +586,32 @@
                 </div>
             </div>
 
+            <!-- Modo de pruebas físicas -->
+            <div class="dm-card p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-bold text-[#c9a227]">🐞 Incidencias de la Partida</h3>
+                    <span id="incidenciasResumen" class="text-[10px] text-[#9a9690]">ninguna todavía</span>
+                </div>
+                <p class="text-[10px] text-[#9a9690]">
+                    Lo que se encuentre jugando con el tablero físico queda anotado acá con el contexto
+                    (celda, tile o enemigo) y se exporta en Markdown para la v1.1.
+                </p>
+                <div class="flex items-center justify-between px-2 py-1.5 rounded bg-[#121216] border border-[#2a2a38]">
+                    <div>
+                        <div class="text-[11px] text-[#e8e6e3] font-semibold">Eventos automáticos</div>
+                        <div class="text-[9px] text-[#9a9690]">Apagalos si usás el mazo de eventos físico.</div>
+                    </div>
+                    <button id="toggleEventosAuto" onclick="toggleEventosAuto()" class="px-3 py-1 rounded text-[10px] font-bold border">—</button>
+                </div>
+                <div id="incidenciasContainer" class="space-y-1.5 max-h-[40vh] overflow-y-auto custom-scroll pr-1">
+                    <!-- Generado por renderIncidencias() -->
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="exportarIncidencias()" class="touch-btn flex-1 bg-[#252530] hover:bg-[#2a2a38] text-[#c9a227] border border-[#8a7020] rounded font-bold text-xs transition">📤 Exportar incidencias</button>
+                    <button onclick="borrarIncidencias()" class="touch-btn px-3 bg-rose-950/40 hover:bg-rose-900/40 text-rose-300 border border-rose-900/60 rounded font-bold text-xs transition">Limpiar</button>
+                </div>
+            </div>
+
             <!-- Instalación PWA y Persistencia Local -->
             <div class="dm-card p-4 space-y-3">
                 <div class="flex items-center justify-between">
@@ -614,6 +641,33 @@
 
         <!-- ================= PESTAÑA 5: BITÁCORA DEL DUNGEON MASTER ================= -->
         <section id="view-log" class="hidden space-y-4">
+            <div class="dm-card p-4 space-y-3">
+                <div class="flex items-center justify-between pb-2 border-b border-[#2a2a38]">
+                    <div>
+                        <h3 class="text-sm font-bold text-[#c9a227]">🎯 Misiones de la Campaña</h3>
+                        <p class="text-[10px] text-[#9a9690]">Objetivos del juego. La primera sin marcar es la que está en curso.</p>
+                    </div>
+                </div>
+                <div id="misionesContainer" class="space-y-1.5">
+                    <!-- Generado por renderMisiones() -->
+                </div>
+            </div>
+
+            <div class="dm-card p-4 space-y-3">
+                <div class="flex items-center justify-between pb-2 border-b border-[#2a2a38]">
+                    <div>
+                        <h3 class="text-sm font-bold text-[#c9a227]">🎴 Mazo de Eventos</h3>
+                        <p class="text-[10px] text-[#9a9690]"><span id="mazoEventosResumen">-</span> · Mismo mazo que el juego físico.</p>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="reiniciarMazoEventos()" class="px-2 py-1 rounded bg-[#1c1c24] text-[#9a9690] hover:text-white border border-[#2a2a38] text-[10px]">Reiniciar mazo</button>
+                    </div>
+                </div>
+                <div id="mazoEventosContainer" class="space-y-1.5 max-h-[45vh] overflow-y-auto custom-scroll pr-1">
+                    <!-- Generado por renderMazoEventos() -->
+                </div>
+            </div>
+
             <div class="dm-card p-4 space-y-3">
                 <div class="flex items-center justify-between pb-2 border-b border-[#2a2a38]">
                     <div>
@@ -810,11 +864,16 @@
             </div>
 
             <!-- BOTÓN CERRAR CONSOLA DM -->
-            <div class="flex items-center justify-between pt-2 border-t border-[#2a2a38]">
-                <span class="text-[10px] text-[#9a9690] italic">Loseta fijada e inmutable</span>
-                <button onclick="closeCellModal()" class="px-5 py-2 bg-[#c9a227] hover:bg-[#e0b82e] text-black rounded text-xs font-bold transition">
-                    Cerrar Consola
-                </button>
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-[#2a2a38]">
+                <span class="text-[10px] text-[#9a9690] italic min-w-0 truncate">Loseta fijada e inmutable</span>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="reportarCelda()" class="px-3 py-2 bg-[#1c1c24] hover:bg-[#2a2a38] text-[#c9a227] border border-[#8a7020] rounded text-xs font-bold transition" title="Registrar una incidencia de esta celda para la v1.1">
+                        🐞 Reportar
+                    </button>
+                    <button onclick="closeCellModal()" class="px-5 py-2 bg-[#c9a227] hover:bg-[#e0b82e] text-black rounded text-xs font-bold transition">
+                        Cerrar Consola
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1174,23 +1233,261 @@
             `).join('');
         }
 
+
+        // ============================================================
+        // MISIONES, MAZO DE EVENTOS E INCIDENCIAS (pruebas reales)
+        // ============================================================
+        // Los datos vienen de la hoja 'otras' del Excel (tools/sync-enemigos.py).
+
+        function eventosUsados() {
+            if (!appState.eventosUsados) appState.eventosUsados = {};
+            return appState.eventosUsados;
+        }
+
+        function eventosDisponibles() {
+            const usados = eventosUsados();
+            return GAME_EVENTS.filter(e => (usados[e.num] || 0) < e.copias);
+        }
+
+        function sortearEvento() {
+            const disp = eventosDisponibles();
+            if (!disp.length) return null;
+            return disp[Math.floor(Math.random() * disp.length)];
+        }
+
+        // Saca un evento del mazo: lo descuenta, lo anota en la bitacora y lo muestra.
+        function sacarEvento(num, origen) {
+            const ev = (num != null)
+                ? GAME_EVENTS.find(e => e.num === num)
+                : sortearEvento();
+            if (!ev) {
+                alert('No quedan cartas de evento en el mazo. Reinicialo desde la Bitácora.');
+                return null;
+            }
+            const usados = eventosUsados();
+            usados[ev.num] = (usados[ev.num] || 0) + 1;
+            addAdventureLog('📜', 'Evento ' + ev.num + (origen ? ' · ' + origen : ''), ev.texto);
+            saveToLocalStorage();
+            renderMazoEventos();
+            showFloatingEventBanner(ev);
+            return ev;
+        }
+
+        function reiniciarMazoEventos() {
+            appState.eventosUsados = {};
+            saveToLocalStorage();
+            renderMazoEventos();
+        }
+
+        // --- Misiones ---
+        function misionesHechas() {
+            if (!appState.misionesHechas) appState.misionesHechas = [];
+            return appState.misionesHechas;
+        }
+
+        function toggleMision(num) {
+            const hechas = misionesHechas();
+            const i = hechas.indexOf(num);
+            if (i === -1) hechas.push(num);
+            else hechas.splice(i, 1);
+            saveToLocalStorage();
+            renderMisiones();
+        }
+
+        function renderMisiones() {
+            const cont = document.getElementById('misionesContainer');
+            if (!cont) return;
+            const hechas = misionesHechas();
+            const pendiente = GAME_MISSIONS.find(m => !hechas.includes(m.num));
+            cont.innerHTML = GAME_MISSIONS.map(m => {
+                const hecha = hechas.includes(m.num);
+                const activa = !hecha && pendiente && pendiente.num === m.num;
+                return `
+                    <button onclick="toggleMision(${m.num})" class="w-full flex items-start gap-2 text-left px-2 py-1.5 rounded border transition ${hecha ? 'bg-emerald-950/30 border-emerald-800/60 opacity-70' : (activa ? 'bg-[#1c180a] border-[#c9a227]/70' : 'bg-[#121216] border-[#2a2a38] hover:border-[#8a7020]')}">
+                        <span class="mt-0.5 w-4 h-4 shrink-0 rounded border ${hecha ? 'bg-emerald-700 border-emerald-600 text-white' : 'border-[#4a4a58]'} text-[10px] flex items-center justify-center">${hecha ? '✓' : ''}</span>
+                        <span class="min-w-0">
+                            <span class="text-[9px] font-mono ${activa ? 'text-[#ffd700]' : 'text-[#6b6b78]'}">Misión ${m.num}${activa ? ' · EN CURSO' : ''}</span>
+                            <span class="block text-[11px] ${hecha ? 'line-through text-[#6b6b78]' : 'text-[#e8e6e3]'}">${m.texto}</span>
+                        </span>
+                    </button>`;
+            }).join('');
+        }
+
+        // --- Mazo de eventos (panel) ---
+        function renderMazoEventos() {
+            const cont = document.getElementById('mazoEventosContainer');
+            if (!cont) return;
+            const usados = eventosUsados();
+            const total = GAME_EVENTS.reduce((a, e) => a + e.copias, 0);
+            const gastadas = GAME_EVENTS.reduce((a, e) => a + (usados[e.num] || 0), 0);
+            const quedan = total - gastadas;
+            const hdr = document.getElementById('mazoEventosResumen');
+            if (hdr) hdr.textContent = `${quedan} de ${total} cartas restantes`;
+
+            cont.innerHTML = GAME_EVENTS.map(e => {
+                const gastado = usados[e.num] || 0;
+                const quedanDeEste = e.copias - gastado;
+                const agotado = quedanDeEste <= 0;
+                const etiquetaEnemigo = e.enemigo
+                    ? `<span class="text-[9px] font-bold text-rose-300 bg-rose-950/60 border border-rose-800/60 px-1 py-0.5 rounded">👾 ${e.enemigo}</span>`
+                    : '';
+                return `
+                    <div class="flex items-start gap-2 px-2 py-1.5 rounded border ${agotado ? 'bg-[#0d0d12] border-[#1c1c24] opacity-50' : 'bg-[#121216] border-[#2a2a38]'}">
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="text-[9px] font-mono text-[#6b6b78]">#${e.num}</span>
+                                ${etiquetaEnemigo}
+                                <span class="text-[9px] text-[#6b6b78]">x${e.copias}</span>
+                                ${agotado ? '<span class="text-[9px] text-rose-400">agotado</span>' : ''}
+                            </div>
+                            <div class="text-[11px] text-[#e8e6e3] leading-snug mt-0.5">${e.texto.replace(/\n/g, '<br>')}</div>
+                        </div>
+                        <button onclick="sacarEvento(${e.num}, 'DM')" ${agotado ? 'disabled' : ''} class="shrink-0 px-2 py-1 rounded text-[10px] font-bold ${agotado ? 'bg-[#1c1c24] text-[#4a4a58] cursor-not-allowed' : 'bg-[#252530] text-[#c9a227] border border-[#8a7020] hover:bg-[#2a2a38]'}">🎴</button>
+                    </div>`;
+            }).join('');
+        }
+
+        // ============================================================
+        // INCIDENCIAS: lo que se encuentra jugando con el tablero fisico
+        // ============================================================
+        function registrarIncidencia(texto, contexto) {
+            if (!texto || !texto.trim()) return;
+            if (!appState.incidencias) appState.incidencias = [];
+            appState.incidencias.push({
+                id: Date.now(),
+                fecha: new Date().toISOString(),
+                texto: texto.trim(),
+                contexto: contexto || ''
+            });
+            saveToLocalStorage();
+            renderIncidencias();
+        }
+
+        function borrarIncidencias() {
+            if (!appState.incidencias || !appState.incidencias.length) return;
+            if (!confirm('¿Borrar todas las incidencias registradas?')) return;
+            appState.incidencias = [];
+            saveToLocalStorage();
+            renderIncidencias();
+        }
+
+        function renderIncidencias() {
+            const cont = document.getElementById('incidenciasContainer');
+            if (!cont) return;
+            const lista = appState.incidencias || [];
+            const resumen = document.getElementById('incidenciasResumen');
+            if (resumen) resumen.textContent = lista.length ? `${lista.length} registradas` : 'ninguna todavía';
+            if (!lista.length) {
+                cont.innerHTML = `<div class="text-[11px] text-[#6b6b78] italic py-2">Sin incidencias. Usá el botón 🐞 en una celda o en la ficha de un enemigo durante la partida.</div>`;
+                return;
+            }
+            cont.innerHTML = lista.slice().reverse().map(i => {
+                const d = new Date(i.fecha);
+                return `
+                    <div class="px-2 py-1.5 rounded border border-[#2a2a38] bg-[#121216]">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-[9px] font-mono text-[#6b6b78]">${d.toLocaleString('es-AR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</span>
+                            <button onclick="borrarIncidencia(${i.id})" class="text-[9px] text-rose-400 hover:text-rose-300">borrar</button>
+                        </div>
+                        <div class="text-[11px] text-[#e8e6e3] leading-snug">${i.texto}</div>
+                        ${i.contexto ? `<div class="text-[9px] text-[#9a9690] font-mono mt-0.5">${i.contexto}</div>` : ''}
+                    </div>`;
+            }).join('');
+        }
+
+        function borrarIncidencia(id) {
+            appState.incidencias = (appState.incidencias || []).filter(i => i.id !== id);
+            saveToLocalStorage();
+            renderIncidencias();
+        }
+
+        function toggleEventosAuto() {
+            appState.eventosAuto = (appState.eventosAuto === false);
+            saveToLocalStorage();
+            renderEventosAuto();
+        }
+
+        function renderEventosAuto() {
+            const btn = document.getElementById('toggleEventosAuto');
+            if (!btn) return;
+            const on = appState.eventosAuto !== false;
+            btn.textContent = on ? 'ACTIVOS' : 'APAGADOS';
+            btn.className = on
+                ? 'px-3 py-1 rounded text-[10px] font-bold border bg-emerald-950/50 text-emerald-300 border-emerald-800'
+                : 'px-3 py-1 rounded text-[10px] font-bold border bg-[#1c1c24] text-[#6b6b78] border-[#2a2a38]';
+        }
+
+        function exportarIncidencias() {
+            const lista = appState.incidencias || [];
+            if (!lista.length) {
+                alert('No hay incidencias para exportar.');
+                return;
+            }
+            const lineas = [];
+            lineas.push('# Incidencias - Kikin Battles');
+            lineas.push('');
+            lineas.push('Exportado: ' + new Date().toLocaleString('es-AR'));
+            lineas.push('');
+            lista.forEach((i, n) => {
+                const d = new Date(i.fecha);
+                lineas.push(`## ${n + 1}. ${i.texto}`);
+                lineas.push(`- Fecha: ${d.toLocaleString('es-AR')}`);
+                if (i.contexto) lineas.push(`- Contexto: ${i.contexto}`);
+                lineas.push('');
+            });
+            const blob = new Blob([lineas.join('\n')], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'kikin-incidencias-' + new Date().toISOString().slice(0, 10) + '.md';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 2000);
+        }
+
+        // Reportar desde la consola de una celda.
+        function reportarCelda() {
+            const c = activeModalCell;
+            if (!c) return abrirReporteIncidencia('Celda de la mesa');
+            const pos = `Celda ${c.row},${c.col}`;
+            const nombre = c.tileName || 'casilla sin nombre';
+            const tam = c.size === '16x16' ? ' · sala 16x16 (2x2)' : '';
+            const ap = c.revealed ? '' : ' · sin revelar';
+            abrirReporteIncidencia(`${pos} - ${nombre}${tam}${ap}`);
+        }
+
+        // Reportar desde la ficha de un enemigo o mascota.
+        function reportarEnemigo(nombre) {
+            const e = appState.customEntities.find(x => x.name === nombre);
+            if (!e) return abrirReporteIncidencia(nombre);
+            const ctx = `${e.name} | ${e.stats} | ${e.category || ''} | Energía ${e.energy} | Mueve ${e.move} | ${e.attackType || ''} | Atq ${e.atkMod || ''}`;
+            abrirReporteIncidencia(ctx);
+        }
+
+        // Pide una incidencia con el contexto de lo que se esta mirando.
+        function abrirReporteIncidencia(contexto) {
+            const texto = prompt('¿Qué pasó? (se guarda con el contexto de la mesa)', '');
+            if (texto === null) return;
+            if (!texto.trim()) return;
+            registrarIncidencia(texto, contexto);
+            alert('Incidencia registrada. La encontrás en Ajustes & PWA → 🐞 Incidencias.');
+        }
+
         // --- TABLAS DEL DUNGEON MASTER & ROLEPLAY ---
         
-        // Disparador de eventos aleatorios automático al pisar o descubrir loseta
+        // Disparador de eventos automático al pisar o descubrir loseta.
+        // Con juego fisico hay que apagarlo en Ajustes: los eventos salen del mazo real.
         function triggerAutomaticDungeonEvent() {
-            // 35% de probabilidad de que ocurra un evento al entrar a una nueva loseta
-            if (Math.random() > 0.35) return;
-
-            const ev = MASTER_EVENTS[Math.floor(Math.random() * MASTER_EVENTS.length)];
+            if (appState.eventosAuto === false) return;   // apagado para pruebas con tablero
+            if (Math.random() > 0.35) return;             // 35% al entrar a una loseta nueva
+            if (!eventosDisponibles().length) return;
+            const ev = sortearEvento();
             if (!ev) return;
-
-            if (ev.ap) adjustAP(ev.ap);
-            if (ev.danger) adjustDanger(ev.danger);
-            if (ev.gold) adjustGold(ev.gold);
-
-            addAdventureLog('📜', 'Evento Automático: ' + ev.title, `${ev.effect} (${ev.gold ? '+'+ev.gold+' Oro ' : ''}${ev.danger ? (ev.danger > 0 ? '+'+ev.danger : ev.danger)+' Peligro ' : ''}${ev.ap ? (ev.ap > 0 ? '+'+ev.ap : ev.ap)+' AP' : ''})`);
-
-            // Notificación visual flotante rápida en pantalla
+            eventosUsados()[ev.num] = (eventosUsados()[ev.num] || 0) + 1;
+            addAdventureLog('📜', 'Evento Automático #' + ev.num, ev.texto);
+            saveToLocalStorage();
+            renderMazoEventos();
             showFloatingEventBanner(ev);
         }
 
@@ -1203,9 +1500,9 @@
                 document.body.appendChild(banner);
             }
             banner.innerHTML = `
-                <div class="text-[10px] uppercase font-bold text-[#c9a227] tracking-wider">📜 ¡Evento de Mazmorra!</div>
-                <div class="font-bold text-white text-xs mt-0.5">${ev.title}</div>
-                <div class="text-[11px] text-[#e8e6e3] mt-1">${ev.effect}</div>
+                <div class="text-[10px] uppercase font-bold text-[#c9a227] tracking-wider">📜 ¡Evento de Mazmorra!${ev.num ? ' #' + ev.num : ''}</div>
+                <div class="text-[11px] text-[#e8e6e3] mt-1 leading-snug">${(ev.texto || ev.effect || '').replace(/\n/g, '<br>')}</div>
+                ${ev.enemigo ? `<div class="text-[10px] font-bold text-rose-300 mt-1">Activá a ${ev.enemigo}</div>` : ''}
             `;
             banner.classList.remove('hidden', 'opacity-0', 'scale-95');
             banner.classList.add('opacity-100', 'scale-100');
@@ -1215,15 +1512,37 @@
             }, 3500);
         }
 
-        const MASTER_EVENTS = [
-            { title: "Eco Aterrador", effect: "Un alarido resuena en los túneles.", ap: 0, danger: 1, gold: 0 },
-            { title: "Brisa Curativa", effect: "Una corriente pura reconforta a los héroes (+1 AP).", ap: 1, danger: 0, gold: 0 },
-            { title: "Derrumbe Parcial", effect: "Caen cascotes del techo. El grupo pierde 1 AP esquivando.", ap: -1, danger: 1, gold: 0 },
-            { title: "Monedas en el Suelo", effect: "Encuentran una bolsa abandonada con 25 monedas de oro.", ap: 0, danger: 0, gold: 25 },
-            { title: "Niebla Sofocante", effect: "El humo reduce la visibilidad (+1 Peligro).", ap: 0, danger: 1, gold: 0 },
-            { title: "Inscripción Rúnica", effect: "Un mensaje antiguo revela un atajo seguro (+2 AP).", ap: 2, danger: 0, gold: 0 },
-            { title: "Altar Consagrado", effect: "Un aura divina bendice el combate contra las sombras.", ap: 1, danger: -1, gold: 10 }
+        // <<<SYNC-EVENTOS>>>
+        // MISIONES Y EVENTOS - fuente de verdad: hoja 'otras' del Excel
+        // Generado por tools/sync-enemigos.py - no editar a mano
+        const GAME_MISSIONS = [
+            { num: 1, texto: "recuperar la nucita de oro" },
+            { num: 2, texto: "Rescatar un compañero de la nicita de oro" },
+            { num: 3, texto: "Arregalr la red electrica para escapar a casa" },
+            { num: 4, texto: "Encontrar el carro y las piezas para repararlo" },
+            { num: 5, texto: "Abre la pueta del complejo para escapar con la nucita de oro" },
         ];
+
+        const GAME_EVENTS = [
+            { num: 1, copias: 3, texto: "Todos los enemigos se activan asi:\nSi están en la misma casilla atacan o si no se mueven", efecto: "activar-todos" },
+            { num: 2, copias: 1, texto: "Activa a Cthulhu si está en el tablero, si no se encuentra hace aparición.", enemigo: "Cthulhu" },
+            { num: 3, copias: 1, texto: "Activa a Drácula si está en el tablero, si no se encuentra hace aparición.", enemigo: "Drácula" },
+            { num: 4, copias: 1, texto: "Activa a Nixar si está en el tablero, si no se encuentra hace aparición.", enemigo: "Nixar" },
+            { num: 5, copias: 1, texto: "Activa a Serpedraco si está en el tablero, si no se encuentra hace aparición.", enemigo: "Serpedraco" },
+            { num: 6, copias: 1, texto: "Activa a Elementales si está en el tablero, si no se encuentra hace aparición.", enemigo: "Elementales" },
+            { num: 7, copias: 1, texto: "Activa a Neofitos si no está en el tablero: roba otra carta de evento y luego baraja esta carta en la pila de robo.", enemigo: "Neofitos", efecto: "roba" },
+            { num: 8, copias: 1, texto: "Activa a Cíclope si está en el tablero, si no se encuentra hace aparición.", enemigo: "Cíclope" },
+            { num: 9, copias: 1, texto: "Activa a Cria Dragón si está en el tablero, si no se encuentra hace aparición.", enemigo: "Cria Dragón" },
+            { num: 10, copias: 1, texto: "Activa a Pictal si está en el tablero, si no se encuentra hace aparición.", enemigo: "Pictal" },
+            { num: 11, copias: 1, texto: "Activa a Huggy-Kissy si está en el tablero, si no se encuentra hace aparición.", enemigo: "Huggy-Kissy" },
+            { num: 12, copias: 1, texto: "Activa a Medusa si está en el tablero, si no se encuentra hace aparición.", enemigo: "Medusa" },
+            { num: 13, copias: 1, texto: "Activa a Camuflador si está en el tablero, si no se encuentra hace aparición.", enemigo: "Camuflador" },
+            { num: 14, copias: 1, texto: "Activa a Espectro si está en el tablero, si no se encuentra hace aparición.", enemigo: "Espectro" },
+            { num: 15, copias: 1, texto: "Activa a Impostor si está en el tablero, si no se encuentra hace aparición.", enemigo: "Impostor" },
+            { num: 16, copias: 2, texto: "Terror: cuando los jugadores ven una sombra terrorifica deciden retroceder 2 casillas", efecto: "retroceder" },
+            { num: 17, copias: 2, texto: "Terror: los acontecimientos recientes te hacen agotar tanto, que no puedes moverte en el siguiente turno.", efecto: "agotamiento" },
+        ];
+        // <<<FIN-SYNC-EVENTOS>>>
 
         const TREASURE_TABLE = [
             { item: "Poción Menor de Salud", desc: "Restaura 25 HP al héroe activo.", gold: 15 },
@@ -3225,19 +3544,16 @@
 
         // --- ACCIONES DM DE INTERACCIÓN Y RESOLUCIÓN ---
         function triggerTileEvent() {
-            const ev = MASTER_EVENTS[Math.floor(Math.random() * MASTER_EVENTS.length)];
-            if (ev.ap) adjustAP(ev.ap);
-            if (ev.danger) adjustDanger(ev.danger);
-            if (ev.gold) adjustGold(ev.gold);
-
+            const ev = sacarEvento(null, 'DM');
+            if (!ev) return;
             const logBox = document.getElementById('modal-interaction-log');
+            if (!logBox) return;
             logBox.classList.remove('hidden');
             logBox.innerHTML = `
-                <div class="font-bold text-purple-300">📜 Evento de Mazmorra: ${ev.title}</div>
-                <div class="text-[11px] text-[#e8e6e3]">${ev.effect}</div>
-                <div class="text-[10px] text-[#c9a227] pt-1">Impacto: ${ev.ap ? (ev.ap > 0 ? '+'+ev.ap : ev.ap)+' AP ' : ''}${ev.danger ? (ev.danger > 0 ? '+'+ev.danger : ev.danger)+' Peligro ' : ''}${ev.gold ? '+'+ev.gold+' Oro' : ''}</div>
+                <div class="font-bold text-purple-300">📜 Evento #{ev.num}</div>
+                <div class="text-[11px] text-[#e8e6e3]">${ev.texto.replace(/\n/g, '<br>')}</div>
+                ${ev.enemigo ? `<div class="text-[10px] text-rose-300 pt-1">Enemigo a activar: ${ev.enemigo}</div>` : ''}
             `;
-            addAdventureLog('📜', 'Evento del DM', `${ev.title}: ${ev.effect} (${ev.gold ? '+'+ev.gold+' Oro ' : ''}${ev.danger ? '+'+ev.danger+' Peligro' : ''})`);
         }
 
         function interactWithEnemy() {
@@ -3532,6 +3848,10 @@
                 const actionBtn = e.locked ? `<span class="text-[9px] text-blue-400 font-semibold px-2 py-0.5 rounded bg-blue-950/60 border border-blue-800">Fijo</span>` : `
                     <button onclick="deleteCustomEntity(${appState.customEntities.indexOf(e)})" class="w-6 h-6 rounded bg-[#a33] text-white text-xs font-bold flex items-center justify-center shrink-0">✕</button>
                 `;
+                // Boton de incidencia: para comparar la carta fisica con la ficha del app.
+                const reportBtn = e.locked ? '' : `
+                    <button onclick="reportarEnemigo('${String(e.name).replace(/'/g, "\\'")}')" class="w-6 h-6 rounded bg-[#1c1c24] text-[#c9a227] border border-[#8a7020] text-xs flex items-center justify-center shrink-0" title="Registrar una incidencia de esta ficha">🐞</button>
+                `;
 
                 // Ficha extendida (datos del Excel): categoría, cantidad de cartas, energía, movimiento y tipo de ataque
                 const meta = [];
@@ -3558,7 +3878,7 @@
                             ${detail ? `<div class="text-[9px] text-[#7d7973] mt-0.5 truncate">${detail}</div>` : ''}
                             ${effect}
                         </div>
-                        ${actionBtn}
+                        ${reportBtn}${actionBtn}
                     </div>
                 `;
             }).join('');
@@ -4108,7 +4428,8 @@
             if (tabId === 'tabletop') renderTabletopMatrix();
             else if (tabId === 'bestiary') renderEntities();
             else if (tabId === 'tiles') renderTiles();
-            else if (tabId === 'settings') updateSettingsStatsUI();
+            else if (tabId === 'settings') { updateSettingsStatsUI(); renderEventosAuto(); renderIncidencias(); }
+            else if (tabId === 'log') { renderMisiones(); renderMazoEventos(); }
         }
 
         function updateSettingsStatsUI() {
@@ -4167,6 +4488,10 @@
             initMapGestures();
             // 5. Renderizar interfaz completa
             applyLoadedState();
+            renderMisiones();
+            renderMazoEventos();
+            renderIncidencias();
+            renderEventosAuto();
 
             // Al cambiar el tamaño de la ventana el mapa se reacomoda.
             let resizeTimer = null;
