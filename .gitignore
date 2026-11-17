@@ -22,3 +22,6 @@ listado de cartas2.xlsx
 
 # Cache del registro de skills del agente (no es contenido del proyecto)
 .atl/
+
+# Config local de Engram (memoria del agente)
+.engram/
